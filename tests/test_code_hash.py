@@ -168,12 +168,13 @@ class TestCodeHash:
     def setup_method(self):
         import os
         import importlib
-        import twosigma.memento.configuration as configuration
+        import tempfile
 
         # Set the MEMENTO_TEST_MODE environment variable to 'true'
         os.environ['MEMENTO_TEST_MODE'] = 'true'
 
         # Reload the configuration module to ensure the latest version is used
+        import twosigma.memento.configuration as configuration
         importlib.reload(configuration)
         from twosigma.memento.configuration import Environment
 
