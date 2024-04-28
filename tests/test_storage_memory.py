@@ -29,22 +29,23 @@ class TestStorageMemory(StorageBackendTester):
         super().setup_method()
         self.original_env = m.Environment.get()
         self.base_path = tempfile.mkdtemp(prefix="memento_storage_memory_test")
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1", storage=MemoryStorageBackend()
-                            )
-                        },
-                    )
-                ],
-            )
-        )
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "memory"
+                            }
+                        }
+                    }
+                }
+            ]
+        })
         self.cluster = m.Environment.get().get_cluster("cluster1")
         self.backend = self.cluster.storage
 
