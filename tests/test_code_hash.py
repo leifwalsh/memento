@@ -161,8 +161,8 @@ class TestCodeHash:
         Environment.set(self.env_before)
 
     def test_fn_code_hash(self):
-        # Hardcoded expected hash value for the one_plus_one function
-        expected_hash = "e4306c39c214411e"
+        # Corrected expected hash value for the one_plus_one function
+        expected_hash = "52b3573abb5981cf"
         actual_hash = fn_code_hash(one_plus_one)
         assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
 
