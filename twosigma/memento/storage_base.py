@@ -31,7 +31,7 @@ import numpy as np
 
 from .storage import StorageBackend
 from .exception import MementoException
-from .logging import log
+from .memento_logging import log
 from .metadata import Memento, ResultType
 from .partition import Partition, InMemoryPartition
 from .reference import (

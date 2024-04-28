@@ -327,3 +327,29 @@ class TestCodeHash:
         )
         # noinspection PyUnresolvedReferences
         assert {_wrapped_one_plus_one.__wrapped__} == result
+
+    def test_hash_simple_function(self):
+        # Define a simple function with no dependencies
+        def simple_function(x):
+            return x + 1
+
+        # Hash the function
+        hash_result = fn_code_hash(simple_function)
+
+        # Actual hash value for the simple_function
+        precomputed_hash = "200960dc9a77feaf"
+
+        # Assert that the computed hash matches the actual hash
+        assert hash_result == precomputed_hash, f"Hash does not match. Computed: {hash_result}, Expected: {precomputed_hash}"
+
+    def test_hash_consistency(self):
+        # Define a simple function with no dependencies
+        def consistent_function(x):
+            return x * 2
+
+        # Hash the function twice
+        first_hash = fn_code_hash(consistent_function)
+        second_hash = fn_code_hash(consistent_function)
+
+        # Assert that both hashes are the same, indicating consistency
+        assert first_hash == second_hash, f"Hashes are not consistent. First: {first_hash}, Second: {second_hash}"

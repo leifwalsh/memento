@@ -16,7 +16,7 @@
 
 
 import logging
-from twosigma.memento.logging import log
+from twosigma.memento.memento_logging import log
 
 
 log.info("Setting log level to WARNING for memento unit tests")

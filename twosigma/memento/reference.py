@@ -23,7 +23,7 @@ import json
 import re
 from typing import Tuple, Dict, Any, cast, Optional, List  # noqa: F401
 
-from .logging import log
+from .memento_logging import log
 from .types import MementoFunctionType, FunctionNotFoundError
 
 

@@ -27,7 +27,7 @@ from tqdm.auto import tqdm
 from .call_stack import CallStack, StackFrame
 from .exception import MementoException, RemoteCallException, NonMemoizedException
 from .context import InvocationContext
-from .logging import log
+from .memento_logging import log
 from .metadata import Memento, ResultType
 from .reference import FunctionReferenceWithArguments
 from .result import KeyOverrideResult

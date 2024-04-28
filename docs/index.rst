@@ -22,7 +22,6 @@ incrementally transformed data.
 
 Indices and tables
 ==================
-
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
@@ -35,7 +34,6 @@ Change Log
 
 Developer resources
 ===================
-
 * :doc:`plugins`
 * :doc:`serialization`
 
@@ -51,7 +49,7 @@ The package contains the following modules:
    twosigma.memento.configuration
    twosigma.memento.context
    twosigma.memento.exception
-   twosigma.memento.logging
+   twosigma.memento.memento_logging
    twosigma.memento.memento
    twosigma.memento.metadata
    twosigma.memento.partition

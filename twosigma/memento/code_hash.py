@@ -25,7 +25,7 @@ from weakref import WeakKeyDictionary
 
 from twosigma.memento.reference import FunctionReference
 from twosigma.memento.exception import DependencyNotFoundError
-from twosigma.memento.logging import log
+from twosigma.memento.memento_logging import log
 from twosigma.memento.serialization import MementoCodec
 from twosigma.memento.types import MementoFunctionType
 
