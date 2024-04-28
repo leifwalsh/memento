@@ -136,16 +136,25 @@ def fn_calls_wrapped_one_plus_one():
 class TestCodeHash:
 
     def setup_method(self):
+        import sys  # Ensure sys is imported to access sys.modules
+        print("Loaded modules before setup:", list(sys.modules.keys()))
+        print("Environment before setup:", Environment.get())
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
         with open(env_file, "w") as f:
             print("""{"name": "test"}""", file=f)
         Environment.set(env_file)
+        print("Environment after setup:", Environment.get())
 
     def teardown_method(self):
+        import sys  # Ensure sys is imported to access sys.modules
+        print("Loaded modules before teardown:", list(sys.modules.keys()))
+        print("Environment before teardown:", Environment.get())
         shutil.rmtree(self.env_dir)
         Environment.set(self.env_before)
+        print("Environment after teardown:", Environment.get())
+        print("Loaded modules after teardown:", list(sys.modules.keys()))
 
     @pytest.mark.needs_canonical_version
     def test_fn_code_hash(self):
@@ -329,12 +338,29 @@ class TestCodeHash:
         assert {_wrapped_one_plus_one.__wrapped__} == result
 
     def test_hash_simple_function(self):
+        import os
+        import sys  # Import sys to access sys.flags and sys.modules
+
         # Define a simple function with no dependencies
         def simple_function(x):
             return x + 1
 
+        # Print the current environment variables for debugging purposes
+        print("Current environment variables:")
+        for key, value in os.environ.items():
+            print(f"{key}: {value}")
+
+        # Print the sys.flags for debugging purposes
+        print("Python sys.flags:", sys.flags)
+
+        # Print the loaded modules for debugging purposes
+        print("Loaded modules:", list(sys.modules.keys()))
+
         # Hash the function
         hash_result = fn_code_hash(simple_function)
+
+        # Print the computed hash for debugging purposes
+        print(f"Computed hash: {hash_result}")
 
         # Actual hash value for the simple_function
         precomputed_hash = "200960dc9a77feaf"
@@ -353,3 +379,12 @@ class TestCodeHash:
 
         # Assert that both hashes are the same, indicating consistency
         assert first_hash == second_hash, f"Hashes are not consistent. First: {first_hash}, Second: {second_hash}"
+
+    def test_compute_actual_hash_for_simple_function(self):
+        # Define a simple function with no dependencies
+        def simple_function(x):
+            return x + 1
+
+        # Compute the hash for the simple function
+        actual_hash = fn_code_hash(simple_function)
+        print(f"Actual computed hash for simple_function: {actual_hash}")

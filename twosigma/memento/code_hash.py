@@ -72,10 +72,15 @@ def fn_code_hash(fn: Callable, salt: str = None, environment: bytes = None) -> s
                 o.co_stacksize,
                 o.co_varnames,
             ]
+            # Print the attr_values for debugging
+            print("attr_values:", attr_values)
             if salt:
                 sha256.update(salt.encode("utf-8"))
             sha256.update(json.dumps(attr_values, sort_keys=True).encode("utf-8"))
-            return sha256.hexdigest()[0:16]
+            result_hash = sha256.hexdigest()[0:16]
+            # Print the resulting hash for debugging
+            print("resulting hash:", result_hash)
+            return result_hash
         else:
             return repr(o)
 
