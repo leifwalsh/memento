@@ -345,6 +345,10 @@ class TestCodeHash:
         def simple_function(x):
             return x + 1
 
+        # Define a consistent function for testing co_flags
+        def consistent_function(x):
+            return x * 2
+
         # Print the current environment variables for debugging purposes
         print("Current environment variables:")
         for key, value in os.environ.items():

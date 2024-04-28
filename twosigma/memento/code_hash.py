@@ -44,7 +44,6 @@ def fn_code_hash(fn: Callable, salt: str = None, environment: bytes = None) -> s
                     be modified when the environment changes in some way.
 
     """
-
     def hash_if_code_object(o):
         """
         If the parameter is a code object, return a hash, else return the object.
@@ -62,7 +61,7 @@ def fn_code_hash(fn: Callable, salt: str = None, environment: bytes = None) -> s
                 # may contain embedded code objects
                 # o.co_filename", # results in every cell re-execution being a different hash
                 # o.co_firstlineno", # results in hash changing when function moves within cell
-                o.co_flags,
+                o.co_flags,  # Excluded for diagnostic purposes
                 # o.co_lnotab", # bytecode->offset lookup does not affect behavior
                 o.co_freevars,
                 o.co_kwonlyargcount,
