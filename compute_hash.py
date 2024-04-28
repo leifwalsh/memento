@@ -7,4 +7,7 @@ def simple_function(x):
 # Print the loaded modules for debugging purposes
 print("Loaded modules:", list(sys.modules.keys()))
 
+# Print the co_flags attribute of the simple_function code object for debugging purposes
+print("co_flags:", simple_function.__code__.co_flags)
+
 print(fn_code_hash(simple_function))
