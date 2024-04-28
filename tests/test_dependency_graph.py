@@ -70,10 +70,26 @@ class TestDependencyGraph:
     def setup_method(self):
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="dependencyGraphTest")
-        env_file = "{}/env.json".format(self.env_dir)
-        with open(env_file, "w") as f:
-            print("""{"name": "test"}""", file=f)
-        Environment.set(env_file)
+        Environment.set({
+            "name": "test",
+            "base_dir": self.env_dir,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "null"
+                            },
+                            "runner": {
+                                "type": "null"
+                            }
+                        }
+                    }
+                }
+            ]
+        })
 
     def teardown_method(self):
         shutil.rmtree(self.env_dir)
