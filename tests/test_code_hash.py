@@ -17,6 +17,7 @@ import shutil
 import tempfile
 from functools import wraps
 from typing import Dict
+import importlib
 
 import pytest
 
@@ -164,6 +165,7 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
+        import os
         from twosigma.memento.configuration import Environment
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
@@ -171,6 +173,9 @@ class TestCodeHash:
         with open(env_file, "w") as f:
             print("""{"name": "test"}""", file=f)
         Environment.set(env_file)
+        importlib.reload(Environment)
+        # Set the MEMENTO_TEST_MODE environment variable to 'true'
+        os.environ['MEMENTO_TEST_MODE'] = 'true'
 
     def teardown_method(self):
         shutil.rmtree(self.env_dir)
