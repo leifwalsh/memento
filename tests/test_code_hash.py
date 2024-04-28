@@ -356,6 +356,12 @@ class TestCodeHash:
         # Print the loaded modules for debugging purposes
         print("Loaded modules:", list(sys.modules.keys()))
 
+        # Print the co_flags attribute of the simple_function code object for debugging purposes
+        print("co_flags of simple_function:", simple_function.__code__.co_flags)
+
+        # Additional print statements to check co_flags of other functions in this test class
+        print("co_flags of consistent_function:", consistent_function.__code__.co_flags)
+
         # Hash the function
         hash_result = fn_code_hash(simple_function)
 
