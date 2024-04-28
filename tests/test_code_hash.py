@@ -149,6 +149,10 @@ undefined_global_var = None
 def undeclared_external_function():
     return "This function is not declared as a dependency."
 
+@memento_function
+def memento_fn_calling_undeclared():
+    return undeclared_external_function()
+
 class TestCodeHash:
 
     def setup_method(self):
@@ -418,9 +422,5 @@ class TestCodeHash:
         Test that a Memento function calling an undeclared external function raises
         an UndeclaredDependencyError.
         """
-        @memento_function
-        def memento_fn_calling_undeclared():
-            return undeclared_external_function()
-
         with pytest.raises(UndeclaredDependencyError):
             memento_fn_calling_undeclared()
