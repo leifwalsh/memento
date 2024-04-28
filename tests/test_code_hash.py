@@ -160,10 +160,11 @@ class TestCodeHash:
         shutil.rmtree(self.env_dir)
         Environment.set(self.env_before)
 
-    @pytest.mark.needs_canonical_version
     def test_fn_code_hash(self):
+        # Hardcoded expected hash value for the one_plus_one function
         expected_hash = "e4306c39c214411e"
-        assert expected_hash == fn_code_hash(one_plus_one)
+        actual_hash = fn_code_hash(one_plus_one)
+        assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
 
     def test_fn_code_hash_with_salt(self):
         prev_hash = fn_code_hash(one_plus_one)
@@ -290,6 +291,7 @@ class TestCodeHash:
         hash_rules = fn_with_local_vars.hash_rules()
         for rule in hash_rules:
             assert "x" not in rule.describe(), "Local variable 'x' should not be included in the hash rules."
+        assert fn_with_local_vars() == 3, "The function did not return the expected result."
 
     def test_fn_with_cell_vars(self):
         """
@@ -298,6 +300,7 @@ class TestCodeHash:
         hash_rules = fn_with_cell_vars.hash_rules()
         for rule in hash_rules:
             assert "x" not in rule.describe(), "Cell variable 'x' should not be included in the hash rules."
+        assert fn_with_cell_vars() == 3, "The function did not return the expected result."
 
     def test_cluster_lock_prevents_version_update(self):
         """
@@ -327,11 +330,14 @@ class TestCodeHash:
         """
         Test that calling a function that is passed as a parameter does not cause an
         `UndeclaredDependencyError`.
-
         """
         try:
             fn_test_call_fn_param(one_plus_one)
+            fn_test_call_fn_param(dep_a)
+            fn_test_call_fn_param(dep_with_embedded_fn)
             fn_test_call_dict_with_list_with_fn_param({"fn": [one_plus_one]})
+            fn_test_call_dict_with_list_with_fn_param({"fn": [dep_a]})
+            fn_test_call_dict_with_list_with_fn_param({"fn": [dep_with_embedded_fn]})
         except UndeclaredDependencyError:
             pytest.fail("Not expected to raise UndeclaredDependencyError")
 
@@ -339,13 +345,20 @@ class TestCodeHash:
         """
         Check that wrappers of memento functions correctly register a dependency on the
         function.
-
         """
+        # Directly test the _memento_fn_wrapper by creating a new wrapped function instance
+        wrapped_fn = _memento_fn_wrapper(one_plus_one)
+        assert wrapped_fn() == 2, "The wrapped function did not return the expected result."
+
+        # Check that the dependencies are correctly registered
         result = (
             fn_calls_wrapped_one_plus_one.dependencies().transitive_memento_fn_dependencies()
         )
         # noinspection PyUnresolvedReferences
         assert {_wrapped_one_plus_one.__wrapped__} == result
+
+        # Explicitly test the return value of fn_calls_wrapped_one_plus_one
+        assert fn_calls_wrapped_one_plus_one() == 2, "fn_calls_wrapped_one_plus_one did not return the expected result."
 
     def test_hash_simple_function(self):
         # Hash the function
@@ -356,6 +369,9 @@ class TestCodeHash:
 
         # Assert that the computed hash matches the actual hash
         assert hash_result == precomputed_hash, f"Hash does not match. Computed: {hash_result}, Expected: {precomputed_hash}"
+
+        # Execute the simple_function and check the result
+        assert simple_function(10) == 11, "The simple_function did not return the expected result."
 
     def test_hash_consistency(self):
         # Define a simple function with no dependencies
@@ -369,6 +385,9 @@ class TestCodeHash:
         # Assert that both hashes are the same, indicating consistency
         assert first_hash == second_hash, f"Hashes are not consistent. First: {first_hash}, Second: {second_hash}"
 
+        # Execute the consistent_function and check the result
+        assert consistent_function(10) == 20, "The consistent_function did not return the expected result."
+
     def test_undefined_symbol_hash_rule(self):
         """
         Test that an undefined symbol triggers the creation of an UndefinedSymbolHashRule.
@@ -379,5 +398,14 @@ class TestCodeHash:
             del undefined_global_var
             hash_rules = fn_with_undefined_global.hash_rules()
             assert any(isinstance(rule, UndefinedSymbolHashRule) for rule in hash_rules), "UndefinedSymbolHashRule not created for undefined global variable."
+            # Attempt to execute fn_with_undefined_global, which should raise a NameError
+            try:
+                fn_with_undefined_global()
+            except NameError as e:
+                assert str(e) == "name 'undefined_global_var' is not defined"
         finally:
             undefined_global_var = 42  # Restore to prevent side effects on other tests
+
+    def test_wrapped_one_plus_one(self):
+        # Test the _wrapped_one_plus_one function to ensure it is covered
+        assert _wrapped_one_plus_one() == 2, "The _wrapped_one_plus_one function did not return the expected result."
