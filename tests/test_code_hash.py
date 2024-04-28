@@ -164,6 +164,7 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
+        from twosigma.memento.configuration import Environment
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
