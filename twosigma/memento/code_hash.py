@@ -53,16 +53,38 @@ def fn_code_hash(fn: Callable, salt: str = None, environment: bytes = None) -> s
             sha256 = hashlib.sha256()
             if environment:
                 sha256.update(environment)
+            def sort_key(x):
+                # Sort by the type of x, then by the value
+                if isinstance(x, CodeType):
+                    return (str(type(x)), x.co_name)
+                return (str(type(x)), str(x))
+
+            sorted_consts = sorted(o.co_consts, key=sort_key)
+
+            class CodeObjectJSONEncoder(json.JSONEncoder):
+                def default(self, obj):
+                    if isinstance(obj, CodeType):
+                        # Serialize code objects by relevant attributes
+                        return {
+                            'co_name': obj.co_name,
+                            'co_firstlineno': obj.co_firstlineno,
+                            'co_flags': obj.co_flags,
+                            'co_argcount': obj.co_argcount,
+                            # Include other attributes necessary for hash computation
+                            # Convert code object to a string representation
+                            'co_code': base64.b64encode(obj.co_code).decode("utf-8"),
+                            # Add other necessary attributes
+                        }
+                    # Fall back to the superclass method for other types
+                    return json.JSONEncoder.default(self, obj)
+
             attr_values = [
                 o.co_argcount,
                 base64.b64encode(o.co_code).decode("utf-8"),
                 o.co_cellvars,
-                tuple([hash_if_code_object(x) for x in o.co_consts]),
-                # may contain embedded code objects
-                # o.co_filename", # results in every cell re-execution being a different hash
-                # o.co_firstlineno", # results in hash changing when function moves within cell
-                o.co_flags,  # Excluded for diagnostic purposes
-                # o.co_lnotab", # bytecode->offset lookup does not affect behavior
+                # Use the custom sort_key function for sorting
+                tuple(sorted_consts),
+                o.co_flags,
                 o.co_freevars,
                 o.co_kwonlyargcount,
                 o.co_name,
@@ -71,14 +93,12 @@ def fn_code_hash(fn: Callable, salt: str = None, environment: bytes = None) -> s
                 o.co_stacksize,
                 o.co_varnames,
             ]
-            # Print the attr_values for debugging
-            print("attr_values:", attr_values)
             if salt:
                 sha256.update(salt.encode("utf-8"))
-            sha256.update(json.dumps(attr_values, sort_keys=True).encode("utf-8"))
+            # Use a custom JSONEncoder to handle code objects
+            json_encoded = json.dumps(attr_values, sort_keys=True, cls=CodeObjectJSONEncoder)
+            sha256.update(json_encoded.encode("utf-8"))
             result_hash = sha256.hexdigest()[0:16]
-            # Print the resulting hash for debugging
-            print("resulting hash:", result_hash)
             return result_hash
         else:
             return repr(o)
