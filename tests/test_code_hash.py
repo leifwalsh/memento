@@ -169,8 +169,14 @@ class TestCodeHash:
         import os
         import importlib
         import twosigma.memento.configuration as configuration
+
+        # Set the MEMENTO_TEST_MODE environment variable to 'true'
+        os.environ['MEMENTO_TEST_MODE'] = 'true'
+
+        # Reload the configuration module to ensure the latest version is used
         importlib.reload(configuration)
         from twosigma.memento.configuration import Environment
+
         print("Checking if 'is_test_mode' is in Environment: ", 'is_test_mode' in dir(Environment))
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
@@ -178,10 +184,6 @@ class TestCodeHash:
         with open(env_file, "w") as f:
             print("""{"name": "test"}""", file=f)
         Environment.set(env_file)
-        # Set the MEMENTO_TEST_MODE environment variable to 'true'
-        os.environ['MEMENTO_TEST_MODE'] = 'true'
-        # Re-import Environment to ensure the latest version is used
-        from twosigma.memento.configuration import Environment
 
     def teardown_method(self):
         shutil.rmtree(self.env_dir)
