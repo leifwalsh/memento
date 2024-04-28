@@ -171,8 +171,6 @@ class TestCodeHash:
         import twosigma.memento.configuration as configuration
         importlib.reload(configuration)
         from twosigma.memento.configuration import Environment
-        print("Modules after reload:", list(sys.modules.keys()))
-        print("Attributes of Environment class:", dir(Environment))
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
@@ -181,6 +179,8 @@ class TestCodeHash:
         Environment.set(env_file)
         # Set the MEMENTO_TEST_MODE environment variable to 'true'
         os.environ['MEMENTO_TEST_MODE'] = 'true'
+        # Re-import Environment to ensure the latest version is used
+        from twosigma.memento.configuration import Environment
 
     def teardown_method(self):
         shutil.rmtree(self.env_dir)
