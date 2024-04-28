@@ -171,6 +171,7 @@ class TestCodeHash:
         import twosigma.memento.configuration as configuration
         importlib.reload(configuration)
         from twosigma.memento.configuration import Environment
+        print("Checking if 'is_test_mode' is in Environment: ", 'is_test_mode' in dir(Environment))
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
