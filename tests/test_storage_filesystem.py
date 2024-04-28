@@ -39,27 +39,25 @@ class TestStorageFilesystem(StorageBackendTester):
         self.original_env = m.Environment.get()
         self.base_path = tempfile.mkdtemp(prefix="memento_storage_filesystem_test")
         self.data_path = "{}/data".format(self.base_path)
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1",
-                                storage=FilesystemStorageBackend(
-                                    path="{}/data".format(self.base_path),
-                                    # test with a different metadata path from data path
-                                    metadata_path="{}/metadata".format(self.base_path),
-                                ),
-                            )
-                        },
-                    )
-                ],
-            )
-        )
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": "{}/data".format(self.base_path),
+                                "metadata_path": "{}/metadata".format(self.base_path),
+                            },
+                        }
+                    }
+                }
+            ],
+        })
         self.cluster = m.Environment.get().get_cluster("cluster1")
         self.backend = self.cluster.storage
 
