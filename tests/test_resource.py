@@ -1,16 +1,3 @@
-# Copyright (c) 2023 Two Sigma Investments, LP.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 import os
 import shutil
 import tempfile
@@ -44,10 +31,10 @@ class TestResource:
         global _called
         self.env_before = m.Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="resourceTest")
-        env_file = "{}/env.json".format(self.env_dir)
-        with open(env_file, "w") as f:
-            print("""{"name": "test"}""", file=f)
-        m.Environment.set(env_file)
+        m.Environment.set({
+            "name": "test",
+            "base_dir": self.env_dir
+        })
         _called = False
 
     def teardown_method(self):
