@@ -75,29 +75,37 @@ class TestRunnerLocal(RunnerBackendTester):
         self.original_env = m.Environment.get()
         self.base_path = tempfile.mkdtemp(prefix="memento_runner_local_test")
         self.data_path = "{}/data".format(self.base_path)
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1",
-                                storage=FilesystemStorageBackend(path=self.data_path),
-                                runner=LocalRunnerBackend(),
-                            ),
-                            "memento.unit_test": FunctionCluster(
-                                name="memento.unit_test",
-                                storage=FilesystemStorageBackend(path=self.data_path),
-                                runner=LocalRunnerBackend(),
-                            ),
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": self.data_path
+                            },
+                            "runner": {
+                                "type": "local"
+                            }
                         },
-                    )
-                ],
-            )
-        )
+                        "memento.unit_test": {
+                            "name": "memento.unit_test",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": self.data_path
+                            },
+                            "runner": {
+                                "type": "local"
+                            }
+                        }
+                    }
+                }
+            ]
+        })
 
         self.cluster = m.Environment.get().get_cluster("cluster1")
         self.backend = self.cluster.runner
