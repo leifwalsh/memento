@@ -146,6 +146,9 @@ def fn_with_undefined_global():
 # Global variable for testing undefined symbol hash rule
 undefined_global_var = None
 
+def undeclared_external_function():
+    return "This function is not declared as a dependency."
+
 class TestCodeHash:
 
     def setup_method(self):
@@ -409,3 +412,15 @@ class TestCodeHash:
     def test_wrapped_one_plus_one(self):
         # Test the _wrapped_one_plus_one function to ensure it is covered
         assert _wrapped_one_plus_one() == 2, "The _wrapped_one_plus_one function did not return the expected result."
+
+    def test_memento_function_with_undeclared_dependency(self):
+        """
+        Test that a Memento function calling an undeclared external function raises
+        an UndeclaredDependencyError.
+        """
+        @memento_function
+        def memento_fn_calling_undeclared():
+            return undeclared_external_function()
+
+        with pytest.raises(UndeclaredDependencyError):
+            memento_fn_calling_undeclared()
