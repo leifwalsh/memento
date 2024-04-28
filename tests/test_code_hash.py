@@ -166,14 +166,15 @@ class TestCodeHash:
 
     def setup_method(self):
         import os
+        import importlib
         from twosigma.memento.configuration import Environment
+        importlib.reload(twosigma.memento.configuration)
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
         with open(env_file, "w") as f:
             print("""{"name": "test"}""", file=f)
         Environment.set(env_file)
-        importlib.reload(Environment)
         # Set the MEMENTO_TEST_MODE environment variable to 'true'
         os.environ['MEMENTO_TEST_MODE'] = 'true'
 
