@@ -642,7 +642,7 @@ class Environment:
         return config
 
     @classmethod
-    def set(cls, config: ["Environment", str, object]):
+    def set(cls, config: Union["Environment", str, object]):
         """
         Switch Memento's default environment.
 
