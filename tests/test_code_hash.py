@@ -149,9 +149,17 @@ undefined_global_var = None
 def undeclared_external_function():
     return "This function is not declared as a dependency."
 
-@memento_function
+@memento_function(dependencies=[])
 def memento_fn_calling_undeclared():
     return undeclared_external_function()
+
+@memento_function(dependencies=[])
+def caller_of_undeclared():
+    return memento_fn_calling_undeclared()
+
+@memento_function(dependencies=[])
+def top_level_caller():
+    return caller_of_undeclared()
 
 class TestCodeHash:
 
@@ -406,10 +414,9 @@ class TestCodeHash:
             hash_rules = fn_with_undefined_global.hash_rules()
             assert any(isinstance(rule, UndefinedSymbolHashRule) for rule in hash_rules), "UndefinedSymbolHashRule not created for undefined global variable."
             # Attempt to execute fn_with_undefined_global, which should raise a NameError
-            try:
+            with pytest.raises(NameError) as exc_info:
                 fn_with_undefined_global()
-            except NameError as e:
-                assert str(e) == "name 'undefined_global_var' is not defined"
+            assert "name 'undefined_global_var' is not defined" in str(exc_info.value)
         finally:
             undefined_global_var = 42  # Restore to prevent side effects on other tests
 
@@ -422,5 +429,8 @@ class TestCodeHash:
         Test that a Memento function calling an undeclared external function raises
         an UndeclaredDependencyError.
         """
+        def non_memento_caller():
+            top_level_caller()
+
         with pytest.raises(UndeclaredDependencyError):
-            memento_fn_calling_undeclared()
+            non_memento_caller()

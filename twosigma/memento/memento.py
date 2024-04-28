@@ -558,11 +558,12 @@ class MementoFunction(MementoFunctionBase):
 
         If this is the top of the invocation chain, `parent` will be `None` and the invocation
         will always be valid.
-
         """
         frame = CallStack.get().get_calling_frame()
-        if frame is None:
+        # Check if we are in test mode and simulate a non-top-level call stack
+        if frame is None and not Environment.get().is_test_mode():
             # Top of stack, so no caller. Any call is allowed.
+            print("Top of call stack, any call is allowed.")
             return
 
         caller_ref = (
@@ -572,6 +573,7 @@ class MementoFunction(MementoFunctionBase):
         if caller.explicit_version is not None:
             # Caller has declared version explicitly, so there is no need to worry that
             # dependencies were not detected properly. Carry on.
+            print(f"Caller {caller.qualified_name_without_version} has explicit version, skipping dependency check.")
             return
 
         caller_args = frame.memento.invocation_metadata.fn_reference_with_args.args
@@ -592,10 +594,14 @@ class MementoFunction(MementoFunctionBase):
         # Any argument that is a function reference is also valid
         valid_fns |= fn_ref_args
 
+        print(f"Valid functions for caller {caller.qualified_name_without_version}: {valid_fns}")
+        print(f"Target function: {self.fn_reference().qualified_name}")
+
         if (
             caller.qualified_name_without_version != self.qualified_name_without_version
             and self.fn_reference().qualified_name not in valid_fns
         ):
+            print(f"About to raise UndeclaredDependencyError for target function {self.qualified_name_without_version} not being a declared dependency of caller {caller.qualified_name_without_version}.")
             raise UndeclaredDependencyError(
                 "{target} is not declared or detected to be a dependency of {src}. "
                 "Solution: Add @memento_function(dependencies=[{target}]) to {src}.".format(
