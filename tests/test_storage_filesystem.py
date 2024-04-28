@@ -84,28 +84,26 @@ class TestStorageFilesystemWithMemoryCache(StorageBackendTester):
             prefix="memento_storage_filesystem_with_memory_cache_test"
         )
         self.data_path = "{}/data".format(self.base_path)
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1",
-                                storage=FilesystemStorageBackend(
-                                    path="{}/data".format(self.base_path),
-                                    # test with a different metadata path from data path
-                                    metadata_path="{}/metadata".format(self.base_path),
-                                    memory_cache_mb=16,
-                                ),
-                            )
-                        },
-                    )
-                ],
-            )
-        )
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": "{}/data".format(self.base_path),
+                                "metadata_path": "{}/metadata".format(self.base_path),
+                                "memory_cache_mb": 16,
+                            },
+                        }
+                    }
+                }
+            ],
+        })
         self.cluster = m.Environment.get().get_cluster("cluster1")
         self.backend = self.cluster.storage
 
@@ -141,25 +139,24 @@ class TestFilesystemDataSourceTest(DataSourceTester):
         self.original_env = m.Environment.get()
         self.base_path = tempfile.mkdtemp(prefix="memento_storage_filesystem_test")
         self.data_path = "{}/data".format(self.base_path)
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1",
-                                storage=FilesystemStorageBackend(
-                                    path="{}/data".format(self.base_path)
-                                ),
-                            )
-                        },
-                    )
-                ],
-            )
-        )
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": "{}/data".format(self.base_path),
+                            },
+                        }
+                    }
+                }
+            ],
+        })
         self.cluster = m.Environment.get().get_cluster("cluster1")
         # noinspection PyUnresolvedReferences
         self.data_source = self.cluster.storage._data_source
@@ -180,25 +177,24 @@ class TestFilesystemMetadataSource(MetadataSourceTester):
         self.original_env = m.Environment.get()
         self.base_path = tempfile.mkdtemp(prefix="memento_storage_filesystem_test")
         self.data_path = "{}/metadata".format(self.base_path)
-        m.Environment.set(
-            Environment(
-                name="test1",
-                base_dir=self.base_path,
-                repos=[
-                    ConfigurationRepository(
-                        name="repo1",
-                        clusters={
-                            "cluster1": FunctionCluster(
-                                name="cluster1",
-                                storage=FilesystemStorageBackend(
-                                    path="{}/data".format(self.base_path)
-                                ),
-                            )
-                        },
-                    )
-                ],
-            )
-        )
+        m.Environment.set({
+            "name": "test1",
+            "base_dir": self.base_path,
+            "repos": [
+                {
+                    "name": "repo1",
+                    "clusters": {
+                        "cluster1": {
+                            "name": "cluster1",
+                            "storage": {
+                                "type": "filesystem",
+                                "path": "{}/data".format(self.base_path),
+                            },
+                        }
+                    }
+                }
+            ],
+        })
         self.cluster = m.Environment.get().get_cluster("cluster1")
         # noinspection PyUnresolvedReferences
         self.metadata_source = self.cluster.storage._metadata_source
