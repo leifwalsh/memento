@@ -699,3 +699,12 @@ def _load_environment() -> Environment:
     else:
         # No config file found. Use a suitable default
         return Environment(name="default")
+
+    @classmethod
+    def is_test_mode(cls) -> bool:
+        """
+        Determine if the current environment is a test environment.
+
+        :return: True if in test mode, False otherwise.
+        """
+        return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
