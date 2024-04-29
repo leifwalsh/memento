@@ -191,12 +191,15 @@ class TestCodeHash:
         print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
 
     def test_fn_code_hash(self):
+        print("Diagnostic - Environment.__dict__ before test_fn_code_hash:", Environment.__dict__)
         # Corrected expected hash value for the one_plus_one function
         expected_hash = "52b3573abb5981cf"
         actual_hash = fn_code_hash(one_plus_one)
         assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
+        print("Diagnostic - Environment.__dict__ after test_fn_code_hash:", Environment.__dict__)
 
     def test_fn_code_hash_with_salt(self):
+        print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_salt:", Environment.__dict__)
         prev_hash = fn_code_hash(one_plus_one)
         hash_with_salt_a = fn_code_hash(one_plus_one, salt="a")
         hash_with_salt_a2 = fn_code_hash(one_plus_one, salt="a")
@@ -205,8 +208,10 @@ class TestCodeHash:
         assert prev_hash != hash_with_salt_a
         assert hash_with_salt_a == hash_with_salt_a2
         assert hash_with_salt_a != hash_with_salt_b
+        print("Diagnostic - Environment.__dict__ after test_fn_code_hash_with_salt:", Environment.__dict__)
 
     def test_fn_code_hash_with_environment(self):
+        print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_environment:", Environment.__dict__)
         prev_hash = fn_code_hash(one_plus_one)
         hash_with_env_a = fn_code_hash(one_plus_one, environment=b"a")
         hash_with_env_a2 = fn_code_hash(one_plus_one, environment=b"a")
@@ -215,34 +220,46 @@ class TestCodeHash:
         assert prev_hash != hash_with_env_a
         assert hash_with_env_a == hash_with_env_a2
         assert hash_with_env_a != hash_with_env_b
+        print("Diagnostic - Environment.__dict__ after test_fn_code_hash_with_environment:", Environment.__dict__)
 
     def test_dep_a(self):
+        print("Diagnostic - Environment.__dict__ before test_dep_a:", Environment.__dict__)
         # Test the dep_a function to ensure it is covered
         assert dep_a() == 54, "The dep_a function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_dep_a:", Environment.__dict__)
 
     def test_dep_a_with_function_in_dot_path(self):
+        print("Diagnostic - Environment.__dict__ before test_dep_a_with_function_in_dot_path:", Environment.__dict__)
         # Test the dep_a_with_function_in_dot_path function to ensure it is covered
         assert dep_a_with_function_in_dot_path() == 42, "The dep_a_with_function_in_dot_path function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_dep_a_with_function_in_dot_path:", Environment.__dict__)
 
     def test_dep_with_embedded_fn(self):
+        print("Diagnostic - Environment.__dict__ before test_dep_with_embedded_fn:", Environment.__dict__)
         # Test the dep_with_embedded_fn function to ensure the embedded function is covered
         assert dep_with_embedded_fn() == 42, "The dep_with_embedded_fn did not return the expected result from the embedded function."
+        print("Diagnostic - Environment.__dict__ after test_dep_with_embedded_fn:", Environment.__dict__)
 
     def test_resolve_to_symbolic_name(self):
+        print("Diagnostic - Environment.__dict__ before test_resolve_to_symbolic_name:", Environment.__dict__)
         result = resolve_to_symbolic_names(["dep_a", dep_b])
         assert "dep_a" in result
         assert "tests.test_code_hash:dep_b" in result, str(result)
+        print("Diagnostic - Environment.__dict__ after test_resolve_to_symbolic_name:", Environment.__dict__)
 
     def test_list_dotted_names(self):
+        print("Diagnostic - Environment.__dict__ before test_list_dotted_names:", Environment.__dict__)
         result = list_dotted_names(dep_a.fn)
         assert "dep_b" in result
         assert "math.sqrt" in result
+        print("Diagnostic - Environment.__dict__ after test_list_dotted_names:", Environment.__dict__)
 
     def test_list_dotted_names_with_function_in_dot_path(self):
         result = list_dotted_names(dep_a_with_function_in_dot_path.fn)
         assert "dep_b" in result
 
     def test_global_var(self):
+        print("Diagnostic - Environment.__dict__ before test_global_var:", Environment.__dict__)
         global global_var
         global_var_before = global_var
         try:
@@ -252,8 +269,10 @@ class TestCodeHash:
             assert version_before != version_after
         finally:
             global_var = global_var_before
+        print("Diagnostic - Environment.__dict__ after test_global_var:", Environment.__dict__)
 
     def test_non_memento_fn(self):
+        print("Diagnostic - Environment.__dict__ before test_non_memento_fn:", Environment.__dict__)
         global _floating_fn
 
         try:
@@ -273,8 +292,10 @@ class TestCodeHash:
             assert _floating_fn() == 54, "The _non_memento_fn_2 did not return the expected result."
         finally:
             _floating_fn = _non_memento_fn_1
+        print("Diagnostic - Environment.__dict__ after test_non_memento_fn:", Environment.__dict__)
 
     def test_redefine_memento_fn_as_non_memento_fn(self):
+        print("Diagnostic - Environment.__dict__ before test_redefine_memento_fn_as_non_memento_fn:", Environment.__dict__)
         """
         memento fn f calls memento fn g and g is redefined as a non-memento fn.
         Ensure Memento realizes g has changed.
@@ -292,8 +313,10 @@ class TestCodeHash:
             assert v1 != v2
         finally:
             _floating_fn = _non_memento_fn_1
+        print("Diagnostic - Environment.__dict__ after test_redefine_memento_fn_as_non_memento_fn:", Environment.__dict__)
 
     def test_late_define_non_memento_fn(self):
+        print("Diagnostic - Environment.__dict__ before test_late_define_non_memento_fn:", Environment.__dict__)
         """
         memento fn f calls function g which is undefined at the time of the definition of f.
         g is later defined as a non-memento fn. Ensure Memento changes the version of f.
@@ -313,8 +336,10 @@ class TestCodeHash:
             assert 0 == dep_floating_fn()
         finally:
             _floating_fn = _non_memento_fn_1
+        print("Diagnostic - Environment.__dict__ after test_late_define_non_memento_fn:", Environment.__dict__)
 
     def test_fn_with_local_vars(self):
+        print("Diagnostic - Environment.__dict__ before test_fn_with_local_vars:", Environment.__dict__)
         """
         Make sure local variables are not included in the function hash
         """
@@ -322,8 +347,10 @@ class TestCodeHash:
         for rule in hash_rules:
             assert "x" not in rule.describe(), "Local variable 'x' should not be included in the hash rules."
         assert fn_with_local_vars() == 3, "The function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_fn_with_local_vars:", Environment.__dict__)
 
     def test_fn_with_cell_vars(self):
+        print("Diagnostic - Environment.__dict__ before test_fn_with_cell_vars:", Environment.__dict__)
         """
         Make sure cell variables are not included in the function hash
         """
@@ -331,8 +358,10 @@ class TestCodeHash:
         for rule in hash_rules:
             assert "x" not in rule.describe(), "Cell variable 'x' should not be included in the hash rules."
         assert fn_with_cell_vars() == 3, "The function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_fn_with_cell_vars:", Environment.__dict__)
 
     def test_cluster_lock_prevents_version_update(self):
+        print("Diagnostic - Environment.__dict__ before test_cluster_lock_prevents_version_update:", Environment.__dict__)
         """
         Test that locking the cluster prevents the version of a function from updating, even if
         the function changes.
@@ -355,8 +384,10 @@ class TestCodeHash:
         finally:
             global_var = prev_value
             cluster.locked = False
+        print("Diagnostic - Environment.__dict__ after test_cluster_lock_prevents_version_update:", Environment.__dict__)
 
     def test_call_fn_param(self):
+        print("Diagnostic - Environment.__dict__ before test_call_fn_param:", Environment.__dict__)
         """
         Test that calling a function that is passed as a parameter does not cause an
         `UndeclaredDependencyError`.
@@ -370,8 +401,10 @@ class TestCodeHash:
             fn_test_call_dict_with_list_with_fn_param({"fn": [dep_with_embedded_fn]})
         except UndeclaredDependencyError:
             pytest.fail("Not expected to raise UndeclaredDependencyError")
+        print("Diagnostic - Environment.__dict__ after test_call_fn_param:", Environment.__dict__)
 
     def test_safe_to_call_memento_fn_wrappers(self):
+        print("Diagnostic - Environment.__dict__ before test_safe_to_call_memento_fn_wrappers:", Environment.__dict__)
         """
         Check that wrappers of memento functions correctly register a dependency on the
         function.
@@ -389,8 +422,10 @@ class TestCodeHash:
 
         # Explicitly test the return value of fn_calls_wrapped_one_plus_one
         assert fn_calls_wrapped_one_plus_one() == 2, "fn_calls_wrapped_one_plus_one did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_safe_to_call_memento_fn_wrappers:", Environment.__dict__)
 
     def test_hash_simple_function(self):
+        print("Diagnostic - Environment.__dict__ before test_hash_simple_function:", Environment.__dict__)
         # Hash the function
         hash_result = fn_code_hash(simple_function)
 
@@ -402,8 +437,10 @@ class TestCodeHash:
 
         # Execute the simple_function and check the result
         assert simple_function(10) == 11, "The simple_function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_hash_simple_function:", Environment.__dict__)
 
     def test_hash_consistency(self):
+        print("Diagnostic - Environment.__dict__ before test_hash_consistency:", Environment.__dict__)
         # Define a simple function with no dependencies
         def consistent_function(x):
             return x * 2
@@ -417,8 +454,10 @@ class TestCodeHash:
 
         # Execute the consistent_function and check the result
         assert consistent_function(10) == 20, "The consistent_function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_hash_consistency:", Environment.__dict__)
 
     def test_undefined_symbol_hash_rule(self):
+        print("Diagnostic - Environment.__dict__ before test_undefined_symbol_hash_rule:", Environment.__dict__)
         """
         Test that an undefined symbol triggers the creation of an UndefinedSymbolHashRule.
         """
@@ -434,12 +473,16 @@ class TestCodeHash:
             assert "name 'undefined_global_var' is not defined" in str(exc_info.value)
         finally:
             undefined_global_var = 42  # Restore to prevent side effects on other tests
+        print("Diagnostic - Environment.__dict__ after test_undefined_symbol_hash_rule:", Environment.__dict__)
 
     def test_wrapped_one_plus_one(self):
+        print("Diagnostic - Environment.__dict__ before test_wrapped_one_plus_one:", Environment.__dict__)
         # Test the _wrapped_one_plus_one function to ensure it is covered
         assert _wrapped_one_plus_one() == 2, "The _wrapped_one_plus_one function did not return the expected result."
+        print("Diagnostic - Environment.__dict__ after test_wrapped_one_plus_one:", Environment.__dict__)
 
     def test_memento_function_with_undeclared_dependency(self):
+        print("Diagnostic - Environment.__dict__ before test_memento_function_with_undeclared_dependency:", Environment.__dict__)
         """
         Test that a Memento function calling an undeclared external function raises
         an UndeclaredDependencyError.
@@ -449,6 +492,7 @@ class TestCodeHash:
 
         with pytest.raises(UndeclaredDependencyError):
             non_memento_caller()
+        print("Diagnostic - Environment.__dict__ after test_memento_function_with_undeclared_dependency:", Environment.__dict__)
 
     print("Diagnostic - Environment.__dict__ at the end of TestCodeHash:", Environment.__dict__)
     print("Diagnostic - MEMENTO_TEST_MODE at the end of TestCodeHash:", os.getenv('MEMENTO_TEST_MODE'))
