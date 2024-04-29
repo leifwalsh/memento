@@ -707,4 +707,5 @@ def _load_environment() -> Environment:
 
         :return: True if in test mode, False otherwise.
         """
+        print("Diagnostic - is_test_mode method is being called. MEMENTO_TEST_MODE:", os.getenv('MEMENTO_TEST_MODE', 'False'))
         return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
