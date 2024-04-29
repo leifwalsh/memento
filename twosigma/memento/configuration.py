@@ -677,6 +677,11 @@ class Environment:
         if env_str != cls._last_env_log:
             cls._last_env_log = env_str
             log.info("Using environment: {}".format(env_str))
+
+        # Diagnostic print statements to check the MEMENTO_TEST_MODE and Environment class dictionary
+        print("Diagnostic - MEMENTO_TEST_MODE within Environment.get():", os.getenv('MEMENTO_TEST_MODE', 'False'))
+        print("Diagnostic - Environment class dictionary within Environment.get():", cls.__dict__)
+
         return environment
 
     @classmethod
