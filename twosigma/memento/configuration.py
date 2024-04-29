@@ -713,3 +713,5 @@ def _load_environment() -> Environment:
         print("Diagnostic - MEMENTO_TEST_MODE before is_test_mode call:", os.getenv('MEMENTO_TEST_MODE', 'False'))
         print("Diagnostic - is_test_mode method is being called. Method is_test_mode is present in Environment class.")
         return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
+
+print("Diagnostic - Environment class dictionary at end of configuration.py:", Environment.__dict__)
