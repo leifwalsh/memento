@@ -9,6 +9,9 @@ from twosigma.memento import configuration
 import importlib
 importlib.reload(configuration)
 
+# Print the file path of the configuration module
+print("Diagnostic - configuration module file path:", configuration.__file__)
+
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
 
