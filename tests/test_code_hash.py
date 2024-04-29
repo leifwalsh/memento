@@ -216,18 +216,10 @@ class TestCodeHash:
         print("Diagnostic - teardown_method called")
         print("Diagnostic - CallStack depth before teardown: {}".format(CallStack.get().depth()))
         # Pop the dummy StackFrame off the CallStack
-        CallStack.get().pop_frame()
-        print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
-        if hasattr(self, 'temp_dir'):
-            shutil.rmtree(self.temp_dir)
-        Environment.set(self.env_before)
-        print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
-        print("Diagnostic - teardown_method completed")
-
-    def teardown_method(self):
-        print("Diagnostic - teardown_method called")
-        # Pop the dummy StackFrame off the CallStack
-        CallStack.get().pop_frame()
+        if CallStack.get().depth() > 0:
+            CallStack.get().pop_frame()
+        else:
+            print("Diagnostic - CallStack was empty when expected to have a dummy frame")
         print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
