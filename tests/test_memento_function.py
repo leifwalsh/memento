@@ -47,6 +47,12 @@ _called = False
 _today = datetime.date.today()
 _now = datetime.datetime.now(datetime.timezone.utc)
 
+@pytest.fixture(autouse=True, scope='session')
+def set_test_mode_and_reload_environment():
+    os.environ['MEMENTO_TEST_MODE'] = 'true'
+    importlib.reload(m.twosigma.memento.configuration)
+    yield
+    os.environ['MEMENTO_TEST_MODE'] = 'false'
 
 # Turn off auto-dependencies, else global variable _called will introduce version change
 @m.memento_function(auto_dependencies=False)
