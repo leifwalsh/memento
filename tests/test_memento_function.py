@@ -51,7 +51,7 @@ _now = datetime.datetime.now(datetime.timezone.utc)
 @pytest.fixture(autouse=True, scope='session')
 def set_test_mode_and_reload_environment():
     os.environ['MEMENTO_TEST_MODE'] = 'true'
-    importlib.reload(m.twosigma.memento.configuration)
+    importlib.reload(twosigma.memento.configuration)
     yield
     os.environ['MEMENTO_TEST_MODE'] = 'false'
 
