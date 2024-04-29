@@ -15,6 +15,7 @@ from abc import ABC
 from typing import List, Dict, Any, Optional, Callable
 
 from pandas import DataFrame
+from twosigma.memento.call_stack import CallStack
 
 from twosigma.memento import Environment, Memento
 from twosigma.memento.exception import MementoNotFoundError
@@ -502,4 +503,11 @@ class MementoFunctionBase(MementoFunctionType, ABC):
         return fn()
 
     def __call__(self, *args, **kwargs):
-        return self.call(*args, **kwargs)
+        # Diagnostic print to check the state before calling the function
+        print("Diagnostic - __call__ method entered. Args:", args, "Kwargs:", kwargs)
+        print("Diagnostic - CallStack state before call:", CallStack.get().__dict__)
+        result = self.call(*args, **kwargs)
+        # Diagnostic print to check the state after calling the function
+        print("Diagnostic - CallStack state after call:", CallStack.get().__dict__)
+        print("Diagnostic - Result of call:", result)
+        return result

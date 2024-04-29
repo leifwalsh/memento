@@ -1,24 +1,18 @@
 import os
-import importlib
-# Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
-# Reload configuration module to pick up changes such as is_test_mode method
-import twosigma.memento.configuration as configuration
-importlib.reload(configuration)
-
-# Now, import the Environment class with the test mode settings applied
-from twosigma.memento.configuration import Environment
-
-print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
-
-print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
 import pytest
 import shutil
 import tempfile
 from functools import wraps
 from typing import Dict
 import sys
+
+# Now, import the Environment class with the test mode settings applied
+from twosigma.memento.configuration import Environment
+
+print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
+print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
 
 from twosigma.memento import MementoFunction
 from twosigma.memento.exception import UndeclaredDependencyError
@@ -172,13 +166,38 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
-        # Diagnostic print to check the presence of 'is_test_mode' method in Environment
+
+        # Set up a dummy call stack frame to simulate a non-top-level call stack
+        from twosigma.memento.call_stack import CallStack, StackFrame
+        from twosigma.memento.runner_backends import RunnerBackend
+        from twosigma.memento.invocation_metadata import FunctionReferenceWithArguments, InvocationMetadata
+        from twosigma.memento.invocation_metadata import FunctionReference
+
+        dummy_fn_ref_with_args = FunctionReferenceWithArguments(
+            fn_reference=FunctionReference(qualified_name="dummy_function"),
+            args=(),
+            kwargs={},
+            context_args={}
+        )
+        dummy_runner = RunnerBackend(name="dummy_runner")
+        dummy_stack_frame = StackFrame(
+            fn_reference_with_args=dummy_fn_ref_with_args,
+            runner=dummy_runner,
+            recursive_context={}
+        )
+        self.original_call_stack = CallStack.get()
+        self.original_call_stack.push_frame(dummy_stack_frame)
+
         print("Diagnostic - Environment class dictionary after setup:", Environment.__dict__)
 
     def teardown_method(self):
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
+
+        # Restore the original call stack
+        if hasattr(self, 'original_call_stack'):
+            self.original_call_stack.pop_frame()
 
     def test_fn_code_hash(self):
         # Corrected expected hash value for the one_plus_one function
