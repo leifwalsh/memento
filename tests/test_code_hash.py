@@ -38,6 +38,11 @@ from twosigma.memento.code_hash import (
     UndefinedSymbolHashRule,
 )
 
+@pytest.fixture(autouse=True)
+def set_test_mode():
+    os.environ['MEMENTO_TEST_MODE'] = 'true'
+    yield
+
 @memento_function()
 def one_plus_one():
     return 1 + 1
