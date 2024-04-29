@@ -169,7 +169,6 @@ class TestCodeHash:
 
         # Set up a dummy call stack frame to simulate a non-top-level call stack
         from twosigma.memento.call_stack import CallStack, StackFrame
-        from twosigma.memento.runner_backends import RunnerBackend
         from twosigma.memento.invocation_metadata import FunctionReferenceWithArguments, InvocationMetadata
         from twosigma.memento.invocation_metadata import FunctionReference
 
@@ -179,10 +178,10 @@ class TestCodeHash:
             kwargs={},
             context_args={}
         )
-        dummy_runner = RunnerBackend(name="dummy_runner")
+        # Removed the RunnerBackend import and usage
         dummy_stack_frame = StackFrame(
             fn_reference_with_args=dummy_fn_ref_with_args,
-            runner=dummy_runner,
+            runner=None,  # Set runner to None as RunnerBackend is removed
             recursive_context={}
         )
         self.original_call_stack = CallStack.get()
