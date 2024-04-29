@@ -1019,6 +1019,9 @@ class TestMemoize:
 
     def test_map_over_range(self):
         result = add.partial(x=2).map_over_range(y=range(1, 4))
+        # Diagnostic print to check the result object and its 'memento' attribute
+        print(f"Diagnostic - Result object: {result}")
+        print(f"Diagnostic - Result object's 'memento' attribute: {getattr(result, 'memento', None)}")
 
         assert 3 == len(result)
         assert 3 == result[1]
@@ -1034,6 +1037,10 @@ class TestMemoize:
         # Try a successful call:
         kwarg_list = [{"x": 1, "y": 2}, {"x": 3, "y": 4}]
         results = add.call_batch(kwarg_list)
+        # Diagnostic print to check the results object and its 'memento' attribute
+        print(f"Diagnostic - Results object: {results}")
+        print(f"Diagnostic - Results object's 'memento' attribute: {getattr(results, 'memento', None)}")
+
         expected = [3, 7]
         assert expected == results
 
@@ -1043,6 +1050,10 @@ class TestMemoize:
             fn_raise_on_odd.call_batch(kwarg_list)
 
         result = fn_raise_on_odd.call_batch(kwarg_list, raise_first_exception=False)
+        # Diagnostic print to check the result object and its 'memento' attribute
+        print(f"Diagnostic - Result object: {result}")
+        print(f"Diagnostic - Result object's 'memento' attribute: {getattr(result, 'memento', None)}")
+
         assert 4 == len(result)
         assert not isinstance(result[0], ValueError)
         assert isinstance(result[1], ValueError)
@@ -1053,6 +1064,10 @@ class TestMemoize:
         # Try a successful call:
         kwarg_list = [{"x": 1, "y": 2}, {"x": 3, "y": 4}]
         results = add.monitor_progress().call_batch(kwarg_list)
+        # Diagnostic print to check the results object and its 'memento' attribute
+        print(f"Diagnostic - Results object: {results}")
+        print(f"Diagnostic - Results object's 'memento' attribute: {getattr(results, 'memento', None)}")
+
         expected = [3, 7]
         assert expected == results
 
