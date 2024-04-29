@@ -103,9 +103,11 @@ class CallStack:
         """
         Returns the frame of the calling function, or `None` if this is the root function in the
         call chain.
-
         """
-        return self._frames[-1] if self._frames else None
+        if self._frames:
+            return self._frames[-1]
+        else:
+            return None
 
     def push_frame(self, frame: StackFrame):
         """
