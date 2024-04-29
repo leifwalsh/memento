@@ -444,6 +444,7 @@ class ConfigurationRepository:
         )
 
 
+print("Diagnostic - Environment class is being loaded.")
 class Environment:
     """
     Each Memento Environment maintains a prioritized collection of
