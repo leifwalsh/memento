@@ -394,7 +394,8 @@ def memento_run_local(
             # Diagnostic print after popping the frame
             print(f"Diagnostic - CallStack depth after pop: {call_stack.depth()}")
             calling_frame = call_stack.get_calling_frame()
-            if calling_frame:
+            # Check if calling_frame is not None before accessing memento and calling propagate_dependencies
+            if calling_frame and calling_frame.memento:
                 print(f"Diagnostic - Calling frame memento after pop: {calling_frame.memento}")
                 propagate_dependencies(
                     caller_memento=calling_frame.memento,
