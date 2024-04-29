@@ -1025,6 +1025,7 @@ class TestMemoize:
         # Diagnostic print to check the result object and its 'memento' attribute
         print(f"Diagnostic - Result object: {result}")
         print(f"Diagnostic - Result object's 'memento' attribute: {getattr(result, 'memento', None)}")
+        print("Diagnostic - Environment.is_test_mode:", Environment.is_test_mode())
 
         assert 3 == len(result)
         assert 3 == result[1]
