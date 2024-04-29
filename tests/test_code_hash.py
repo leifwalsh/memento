@@ -191,6 +191,7 @@ class TestCodeHash:
     print("Diagnostic - MEMENTO_TEST_MODE at the start of TestCodeHash:", os.getenv('MEMENTO_TEST_MODE'))
 
     def setup_method(self):
+        print("Diagnostic - setup_method called")
         print("Diagnostic - Environment.__dict__ before test setup:", Environment.__dict__)
         # Removed the redundant reload and import of the Environment class
         self.env_before = Environment.get()
@@ -203,14 +204,15 @@ class TestCodeHash:
         print("Diagnostic - Environment.__dict__ before setting test environment:", Environment.__dict__)
         Environment.set(test_environment_config)
         print("Diagnostic - Environment.__dict__ after setting test environment:", Environment.__dict__)
-        print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
         # Push a dummy StackFrame onto the CallStack
         dummy_frame = StackFrame(None, None, None)
         CallStack.get().push_frame(dummy_frame)
         # Diagnostic print to confirm StackFrame is on the CallStack
         print(f"Diagnostic - CallStack after pushing dummy frame: {CallStack.get()._frames}")
+        print("Diagnostic - setup_method completed")
 
     def teardown_method(self):
+        print("Diagnostic - teardown_method called")
         # Pop the dummy StackFrame off the CallStack
         CallStack.get().pop_frame()
         print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
@@ -218,6 +220,7 @@ class TestCodeHash:
             shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
         print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
+        print("Diagnostic - teardown_method completed")
 
     def test_fn_code_hash(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash:", Environment.__dict__)
