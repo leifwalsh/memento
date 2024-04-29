@@ -172,20 +172,20 @@ class TestCodeHash:
 
         # Removed import statements for non-existent invocation_metadata module
 
-        dummy_fn_ref_with_args = FunctionReferenceWithArguments(
-            fn_reference=FunctionReference(qualified_name="dummy_function"),
-            args=(),
-            kwargs={},
-            context_args={}
-        )
-        # Removed the RunnerBackend import and usage
-        dummy_stack_frame = StackFrame(
-            fn_reference_with_args=dummy_fn_ref_with_args,
-            runner=None,  # Set runner to None as RunnerBackend is removed
-            recursive_context={}
-        )
+        # dummy_fn_ref_with_args = FunctionReferenceWithArguments(
+        #     fn_reference=FunctionReference(qualified_name="dummy_function"),
+        #     args=(),
+        #     kwargs={},
+        #     context_args={}
+        # )
+        # dummy_stack_frame = StackFrame(
+        #     fn_reference_with_args=dummy_fn_ref_with_args,
+        #     runner=None,  # Set runner to None as RunnerBackend is removed
+        #     recursive_context={}
+        # )
+        # self.original_call_stack.push_frame(dummy_stack_frame)
+
         self.original_call_stack = CallStack.get()
-        self.original_call_stack.push_frame(dummy_stack_frame)
 
         print("Diagnostic - Environment class dictionary after setup:", Environment.__dict__)
 
