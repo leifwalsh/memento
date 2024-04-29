@@ -240,7 +240,7 @@ class TestCodeHash:
             args=(),
             kwargs={}
         )
-        dummy_runner = RunnerBackend()
+        dummy_runner = unittest.mock.Mock(spec=RunnerBackend)
         dummy_recursive_context = RecursiveContext()
 
         # Initialize StackFrame with the dummy instances
