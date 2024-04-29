@@ -388,9 +388,14 @@ def memento_run_local(
             return result
         finally:
             log.debug("{}: Function call ends".format(correlation_id))
+            # Diagnostic print before popping the frame
+            print(f"Diagnostic - StackFrame memento before pop: {stack_frame.memento}")
             call_stack.pop_frame()
+            # Diagnostic print after popping the frame
+            print(f"Diagnostic - CallStack depth after pop: {call_stack.depth()}")
             calling_frame = call_stack.get_calling_frame()
             if calling_frame:
+                print(f"Diagnostic - Calling frame memento after pop: {calling_frame.memento}")
                 propagate_dependencies(
                     caller_memento=calling_frame.memento,
                     result_memento=stack_frame.memento,
