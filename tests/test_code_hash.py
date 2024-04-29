@@ -167,6 +167,9 @@ def top_level_caller():
 
 class TestCodeHash:
 
+    print("Diagnostic - Environment.__dict__ at the start of TestCodeHash:", Environment.__dict__)
+    print("Diagnostic - MEMENTO_TEST_MODE at the start of TestCodeHash:", os.getenv('MEMENTO_TEST_MODE'))
+
     def setup_method(self):
         print("Diagnostic - Environment.__dict__ before test setup:", Environment.__dict__)
         # Removed the redundant reload and import of the Environment class
@@ -178,11 +181,14 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
+        print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
 
     def teardown_method(self):
+        print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
+        print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
 
     def test_fn_code_hash(self):
         # Corrected expected hash value for the one_plus_one function
@@ -443,3 +449,6 @@ class TestCodeHash:
 
         with pytest.raises(UndeclaredDependencyError):
             non_memento_caller()
+
+    print("Diagnostic - Environment.__dict__ at the end of TestCodeHash:", Environment.__dict__)
+    print("Diagnostic - MEMENTO_TEST_MODE at the end of TestCodeHash:", os.getenv('MEMENTO_TEST_MODE'))
