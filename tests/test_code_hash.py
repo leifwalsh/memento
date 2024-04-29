@@ -1,3 +1,6 @@
+import os
+os.environ['MEMENTO_TEST_MODE'] = 'true'
+
 # Copyright (c) 2023 Two Sigma Investments, LP.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-import importlib
-import twosigma.memento.configuration as configuration
-importlib.reload(configuration)
-from twosigma.memento.configuration import Environment
-
-import math
 import shutil
 import tempfile
 from functools import wraps
@@ -170,19 +166,6 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
-        import os
-        import importlib
-        import tempfile
-
-        # Set the MEMENTO_TEST_MODE environment variable to 'true'
-        os.environ['MEMENTO_TEST_MODE'] = 'true'
-
-        # Reload the configuration module to ensure the latest version is used
-        import twosigma.memento.configuration as configuration
-        importlib.reload(configuration)
-        from twosigma.memento.configuration import Environment
-
-        print("Checking if 'is_test_mode' is in Environment: ", 'is_test_mode' in dir(Environment))
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
