@@ -2,6 +2,8 @@ import os
 # Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
+print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
+
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
 
@@ -160,7 +162,7 @@ class TestCodeHash:
     def setup_method(self):
         import twosigma.memento.configuration
         importlib.reload(twosigma.memento.configuration)
-        from twosigma.memento.configuration import Environment
+        # Removed the redundant import statement of Environment
 
         self.env_before = Environment.get()
         self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
