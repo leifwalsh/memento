@@ -7,6 +7,8 @@ print("Diagnostic - MEMENTO_TEST_MODE set to:", os.environ['MEMENTO_TEST_MODE'])
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
 
+print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
+
 import pytest
 import shutil
 import tempfile
