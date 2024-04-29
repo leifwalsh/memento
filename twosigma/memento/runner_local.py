@@ -279,7 +279,11 @@ def memento_run_local(
     # Acquire a lock for the invocation
     with _mutex_for_invocation(fn_reference_with_args):
         try:
+            # Diagnostic print before pushing a new frame
+            print(f"Diagnostic - CallStack depth before push: {call_stack.depth()}")
             call_stack.push_frame(stack_frame)
+            # Diagnostic print after pushing a new frame
+            print(f"Diagnostic - CallStack depth after push: {call_stack.depth()}")
 
             existing_memento = storage_backend.get_memento(
                 fn_reference_with_args.fn_reference_with_arg_hash()
