@@ -221,7 +221,11 @@ class TestCodeHash:
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash:", Environment.__dict__)
         # Corrected expected hash value for the one_plus_one function
         expected_hash = "52b3573abb5981cf"
+        # Diagnostic print to check the CallStack before calling the MementoFunction
+        print(f"Diagnostic - CallStack before calling MementoFunction: {CallStack.get()}")
         actual_hash = fn_code_hash(one_plus_one)
+        # Diagnostic print to check the CallStack after calling the MementoFunction
+        print(f"Diagnostic - CallStack after calling MementoFunction: {CallStack.get()}")
         assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
         print("Diagnostic - Environment.__dict__ after test_fn_code_hash:", Environment.__dict__)
 
