@@ -30,6 +30,11 @@ from twosigma.memento.code_hash import (
     UndefinedSymbolHashRule,
 )
 
+@pytest.fixture(autouse=True)
+def set_test_mode(monkeypatch):
+    monkeypatch.setenv('MEMENTO_TEST_MODE', 'true')
+    print("Diagnostic - MEMENTO_TEST_MODE set by fixture:", os.environ['MEMENTO_TEST_MODE'])
+
 @memento_function()
 def one_plus_one():
     return 1 + 1
