@@ -715,8 +715,10 @@ def _load_environment() -> Environment:
 
         :return: True if in test mode, False otherwise.
         """
-        print("Diagnostic - MEMENTO_TEST_MODE before is_test_mode call:", os.getenv('MEMENTO_TEST_MODE', 'False'))
-        print("Diagnostic - is_test_mode method is being called. Method is_test_mode is present in Environment class.")
-        return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
+        test_mode = os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
+        print(f"Diagnostic - is_test_mode method called. Result: {test_mode}")
+        return test_mode
+
+print("Diagnostic - Environment.__dict__ after class definition:", Environment.__dict__)
 
 print("Diagnostic - Environment class dictionary at end of configuration.py:", Environment.__dict__)
