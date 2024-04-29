@@ -207,6 +207,8 @@ class TestCodeHash:
         # Push a dummy StackFrame onto the CallStack
         dummy_frame = StackFrame(None, None, None)
         CallStack.get().push_frame(dummy_frame)
+        # Diagnostic print to confirm StackFrame is on the CallStack
+        print(f"Diagnostic - CallStack after pushing dummy frame: {CallStack.get()._frames}")
 
     def teardown_method(self):
         # Pop the dummy StackFrame off the CallStack
