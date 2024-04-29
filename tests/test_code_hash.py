@@ -168,6 +168,11 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
+        # Diagnostic print statements to check the presence of 'is_test_mode' method
+        print("Checking if 'is_test_mode' is in Environment:", hasattr(Environment, 'is_test_mode'))
+        if hasattr(Environment, 'is_test_mode'):
+            print("Output of 'is_test_mode':", Environment().is_test_mode())
+
         self.env_before = Environment.get()
         self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
         env_file = "{}/env.json".format(self.env_dir)
