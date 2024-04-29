@@ -272,14 +272,18 @@ def memento_run_local(
     call_stack = CallStack.get()
     stack_frame = StackFrame(fn_reference_with_args, log_runner, context.recursive)
 
+    # Diagnostic print after creating the StackFrame
+    print(f"Diagnostic - StackFrame created with memento: {stack_frame.memento}")
+
     # Acquire a lock for the invocation
     with _mutex_for_invocation(fn_reference_with_args):
         try:
-            # Diagnostic print before pushing a new frame
-            print(f"Diagnostic - CallStack depth before push: {call_stack.depth()}")
+            # Diagnostic print after pushing the StackFrame onto the CallStack
+            print(f"Diagnostic - StackFrame pushed, CallStack depth: {call_stack.depth()}, StackFrame memento: {stack_frame.memento}")
             call_stack.push_frame(stack_frame)
-            # Diagnostic print after pushing a new frame
-            print(f"Diagnostic - CallStack depth after push: {call_stack.depth()}")
+
+            # Diagnostic print before checking for an existing memento
+            print(f"Diagnostic - Checking for existing memento for function: {fn_reference_with_args.fn_reference.qualified_name}")
 
             existing_memento = storage_backend.get_memento(
                 fn_reference_with_args.fn_reference_with_arg_hash()
@@ -321,6 +325,9 @@ def memento_run_local(
             #       children, but depending on whether the children are cached, this will come
             #       out different. We should change this to subtract out the runtime of children
             stack_frame.memento.invocation_metadata.runtime = time_end - time_start
+
+            # Diagnostic print after a new memento is created following the function call
+            print(f"Diagnostic - New memento created, StackFrame memento: {stack_frame.memento}")
 
             # Unwrap KeyOverrideResult
             key_override = None
@@ -377,6 +384,9 @@ def memento_run_local(
                     )
                 )
                 return exception_result
+
+            # Diagnostic print before the function result is returned
+            print(f"Diagnostic - Function result about to be returned, StackFrame memento: {stack_frame.memento}")
 
             log.debug(
                 "{}: Result was computed, {} and is of type {}".format(
