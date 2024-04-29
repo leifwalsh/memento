@@ -1,4 +1,5 @@
 import os
+import math
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
 print("Diagnostic - MEMENTO_TEST_MODE immediately after set:", os.environ['MEMENTO_TEST_MODE'])
@@ -223,7 +224,24 @@ class TestCodeHash:
 
     @contextmanager
     def call_stack_context():
-        frame = StackFrame()
+        # Create dummy instances of the required arguments for StackFrame
+        dummy_fn_ref_with_args = FunctionReferenceWithArguments(
+            fn_reference=FunctionReference(
+                module_name="dummy_module",
+                qualname="dummy_qualname"
+            ),
+            args=(),
+            kwargs={}
+        )
+        dummy_runner = RunnerBackend()
+        dummy_recursive_context = RecursiveContext()
+
+        # Initialize StackFrame with the dummy instances
+        frame = StackFrame(
+            fn_reference_with_args=dummy_fn_ref_with_args,
+            runner=dummy_runner,
+            recursive_context=dummy_recursive_context
+        )
         CallStack.get().push_frame(frame)
         try:
             yield
@@ -236,7 +254,7 @@ class TestCodeHash:
         expected_hash = "52b3573abb5981cf"
         # Diagnostic print to check the CallStack before calling the MementoFunction
         print(f"Diagnostic - CallStack before calling MementoFunction: {CallStack.get()}")
-        with self.call_stack_context():
+        with call_stack_context():
             actual_hash = fn_code_hash(one_plus_one)
         # Diagnostic print to check the CallStack after calling the MementoFunction
         print(f"Diagnostic - CallStack after calling MementoFunction: {CallStack.get()}")
@@ -245,13 +263,13 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_salt(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_salt:", Environment.__dict__)
-        with self.call_stack_context():
+        with call_stack_context():
             prev_hash = fn_code_hash(one_plus_one)
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_salt_a = fn_code_hash(one_plus_one, salt="a")
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_salt_a2 = fn_code_hash(one_plus_one, salt="a")
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_salt_b = fn_code_hash(one_plus_one, salt="b")
 
         assert prev_hash != hash_with_salt_a
@@ -261,13 +279,13 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_environment(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_environment:", Environment.__dict__)
-        with self.call_stack_context():
+        with call_stack_context():
             prev_hash = fn_code_hash(one_plus_one)
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_env_a = fn_code_hash(one_plus_one, environment=b"a")
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_env_a2 = fn_code_hash(one_plus_one, environment=b"a")
-        with self.call_stack_context():
+        with call_stack_context():
             hash_with_env_b = fn_code_hash(one_plus_one, environment=b"b")
 
         assert prev_hash != hash_with_env_a
