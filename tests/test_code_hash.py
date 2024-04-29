@@ -30,6 +30,8 @@ from twosigma.memento.code_hash import (
     resolve_to_symbolic_names,
     UndefinedSymbolHashRule,
 )
+from twosigma.memento.call_stack import FunctionReferenceWithArguments, RunnerBackend, RecursiveContext
+from twosigma.memento.reference import FunctionReference
 
 @pytest.fixture(autouse=True)
 def set_test_mode(monkeypatch):
@@ -180,7 +182,10 @@ def memento_fn_calling_undeclared():
 def caller_of_undeclared():
     return memento_fn_calling_undeclared()
 
-@memento_function(dependencies=[])
+@memento_function()
+def mock_memento_fn():
+    pass
+
 def top_level_caller():
     return caller_of_undeclared()
 
@@ -222,13 +227,15 @@ class TestCodeHash:
 
     from contextlib import contextmanager
 
+    @staticmethod
     @contextmanager
     def call_stack_context():
-        # Create dummy instances of the required arguments for StackFrame
         dummy_fn_ref_with_args = FunctionReferenceWithArguments(
             fn_reference=FunctionReference(
+                memento_fn=mock_memento_fn,
+                cluster_name="dummy_cluster",
                 module_name="dummy_module",
-                qualname="dummy_qualname"
+                function_name="dummy_qualname"
             ),
             args=(),
             kwargs={}
@@ -254,7 +261,7 @@ class TestCodeHash:
         expected_hash = "52b3573abb5981cf"
         # Diagnostic print to check the CallStack before calling the MementoFunction
         print(f"Diagnostic - CallStack before calling MementoFunction: {CallStack.get()}")
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             actual_hash = fn_code_hash(one_plus_one)
         # Diagnostic print to check the CallStack after calling the MementoFunction
         print(f"Diagnostic - CallStack after calling MementoFunction: {CallStack.get()}")
@@ -263,13 +270,13 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_salt(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_salt:", Environment.__dict__)
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             prev_hash = fn_code_hash(one_plus_one)
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_salt_a = fn_code_hash(one_plus_one, salt="a")
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_salt_a2 = fn_code_hash(one_plus_one, salt="a")
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_salt_b = fn_code_hash(one_plus_one, salt="b")
 
         assert prev_hash != hash_with_salt_a
@@ -279,13 +286,13 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_environment(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_environment:", Environment.__dict__)
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             prev_hash = fn_code_hash(one_plus_one)
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_env_a = fn_code_hash(one_plus_one, environment=b"a")
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_env_a2 = fn_code_hash(one_plus_one, environment=b"a")
-        with call_stack_context():
+        with TestCodeHash.call_stack_context():
             hash_with_env_b = fn_code_hash(one_plus_one, environment=b"b")
 
         assert prev_hash != hash_with_env_a
