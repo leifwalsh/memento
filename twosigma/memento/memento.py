@@ -326,6 +326,14 @@ class MementoFunction(MementoFunctionBase):
             )
             Environment.register_function(cluster_name, self)
 
+        # Diagnostic print to confirm successful creation and to display key attributes
+        print(f"MementoFunction object created for function: {fn.__name__}")
+        print(f"Function code hash: {self.code_hash}")
+        print(f"Function qualified name without version: {self.qualified_name_without_version}")
+        print(f"Function dependencies: {self.required_dependencies}")
+        print(f"Function auto_dependencies: {self.auto_dependencies}")
+        print(f"Function registered: {register_fn}")
+
     def clone_with(
         self,
         fn: Callable = None,
