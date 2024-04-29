@@ -30,6 +30,7 @@ import pytest
 from pandas import DataFrame
 
 import twosigma.memento as m
+from twosigma.memento import configuration
 from pandas.testing import assert_frame_equal
 from twosigma.memento import (
     Environment,
