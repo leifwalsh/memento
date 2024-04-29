@@ -20,13 +20,7 @@ from collections import namedtuple
 from typing import Callable, Dict, Any, Tuple, List, Union, Optional, Set, cast
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
-from . import configuration
-import importlib
 import os
-
-# Reload configuration module if in test mode to pick up changes such as is_test_mode method
-if os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true':
-    importlib.reload(configuration)
 
 from .base import MementoFunctionBase
 from .dependency_graph import DependencyGraph
