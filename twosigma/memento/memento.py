@@ -25,7 +25,7 @@ import os
 from .base import MementoFunctionBase
 from .dependency_graph import DependencyGraph
 from .exception import UndeclaredDependencyError
-from .call_stack import CallStack
+from .call_stack import CallStack, StackFrame
 from .context import InvocationContext
 from .external import ExternalMementoFunctionBase
 from .memento_logging import log
@@ -370,8 +370,19 @@ class MementoFunction(MementoFunctionBase):
         )
 
     def call(self, *args, **kwargs):
-        self._validate_dependency()
-        return super(MementoFunction, self).call(*args, **kwargs)
+        # Push a new StackFrame onto the CallStack before calling the function
+        call_stack = CallStack.get()
+        frame = StackFrame(fn_reference_with_args=self.fn_reference().with_args(*args, **kwargs),
+                           runner=None,  # Runner will be determined by the backend
+                           recursive_context=None)  # Recursive context is not needed for direct calls
+        call_stack.push_frame(frame)
+        try:
+            self._validate_dependency()
+            result = super(MementoFunction, self).call(*args, **kwargs)
+        finally:
+            # Ensure the frame is popped from the CallStack even if an exception occurs
+            call_stack.pop_frame()
+        return result
 
     def call_batch(
         self, kwargs_list: List[Dict[str, Any]], raise_first_exception=True
