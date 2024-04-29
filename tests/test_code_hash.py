@@ -183,6 +183,8 @@ def caller_of_undeclared():
 def top_level_caller():
     return caller_of_undeclared()
 
+from twosigma.memento.call_stack import StackFrame, CallStack
+
 class TestCodeHash:
 
     print("Diagnostic - Environment.__dict__ at the start of TestCodeHash:", Environment.__dict__)
@@ -202,8 +204,13 @@ class TestCodeHash:
         Environment.set(test_environment_config)
         print("Diagnostic - Environment.__dict__ after setting test environment:", Environment.__dict__)
         print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
+        # Push a dummy StackFrame onto the CallStack
+        dummy_frame = StackFrame(None, None, None)
+        CallStack.get().push_frame(dummy_frame)
 
     def teardown_method(self):
+        # Pop the dummy StackFrame off the CallStack
+        CallStack.get().pop_frame()
         print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
