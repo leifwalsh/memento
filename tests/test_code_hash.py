@@ -2,16 +2,6 @@ import os
 # Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
-# Import the configuration module
-from twosigma.memento import configuration
-
-# Reload the configuration module to ensure the Environment class is updated
-import importlib
-importlib.reload(configuration)
-
-# Print the file path of the configuration module
-print("Diagnostic - configuration module file path:", configuration.__file__)
-
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
 
