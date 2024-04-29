@@ -12,26 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+import importlib
+import twosigma.memento.configuration as configuration
+importlib.reload(configuration)
+from twosigma.memento.configuration import Environment
+
 import math
 import shutil
 import tempfile
 from functools import wraps
 from typing import Dict
-import importlib
 import sys
 
 import pytest
 
 from twosigma.memento import MementoFunction
 from twosigma.memento.exception import UndeclaredDependencyError
-from twosigma.memento import memento_function, Environment
+from twosigma.memento import memento_function
 from twosigma.memento.code_hash import (
     fn_code_hash,
     list_dotted_names,
     resolve_to_symbolic_names,
     UndefinedSymbolHashRule,
 )
-
 
 @memento_function()
 def one_plus_one():
