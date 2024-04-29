@@ -359,6 +359,7 @@ class StorageBackendTester(ABC):
         )
 
     def test_memoize(self):
+        print("Diagnostic - Starting test_memoize")
         fn1_reference = fn_return_none_1.fn_reference().with_args()
         fn2_reference = fn_return_none_2.fn_reference().with_args()
         now = datetime.datetime.now(datetime.timezone.utc)
@@ -435,6 +436,7 @@ class StorageBackendTester(ABC):
         assert not self.backend.is_memoized(
             fn1_reference.fn_reference, fn1_reference.arg_hash
         )
+        print("Diagnostic - Ending test_memoize")
 
     def test_memoize_exception(self):
         assert fn_raise_value_error.memento() is None
