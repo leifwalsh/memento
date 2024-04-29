@@ -372,16 +372,21 @@ class MementoFunction(MementoFunctionBase):
     def call(self, *args, **kwargs):
         # Push a new StackFrame onto the CallStack before calling the function
         call_stack = CallStack.get()
+        print(f"Diagnostic - CallStack before pushing new frame: {call_stack}")
         frame = StackFrame(fn_reference_with_args=self.fn_reference().with_args(*args, **kwargs),
                            runner=None,  # Runner will be determined by the backend
                            recursive_context=None)  # Recursive context is not needed for direct calls
+        print(f"Diagnostic - New StackFrame created: {frame}")
         call_stack.push_frame(frame)
+        print(f"Diagnostic - CallStack after pushing new frame: {call_stack}")
         try:
             self._validate_dependency()
             result = super(MementoFunction, self).call(*args, **kwargs)
         finally:
             # Ensure the frame is popped from the CallStack even if an exception occurs
-            call_stack.pop_frame()
+            popped_frame = call_stack.pop_frame()
+            print(f"Diagnostic - Popped StackFrame: {popped_frame}")
+            print(f"Diagnostic - CallStack after popping frame: {call_stack}")
         return result
 
     def call_batch(
