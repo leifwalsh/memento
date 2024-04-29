@@ -30,10 +30,9 @@ import pytest
 from pandas import DataFrame
 
 import twosigma.memento as m
-from twosigma.memento import configuration
+from twosigma.memento.configuration import Environment
 from pandas.testing import assert_frame_equal
 from twosigma.memento import (
-    Environment,
     ConfigurationRepository,
     FunctionCluster,
     Memento,
@@ -45,14 +44,25 @@ from twosigma.memento.partition import InMemoryPartition
 from twosigma.memento.code_hash import fn_code_hash
 from twosigma.memento.storage_filesystem import FilesystemStorageBackend
 
+# Set the test mode environment variable before any imports that might depend on it
+os.environ['MEMENTO_TEST_MODE'] = 'true'
+
+# Diagnostic print to check if 'is_test_mode' method is present and its return value
+print("Diagnostic - is_test_mode method presence:", hasattr(Environment, 'is_test_mode'))
+print("Diagnostic - is_test_mode method return value:", Environment.is_test_mode())
+
 _called = False
 _today = datetime.date.today()
 _now = datetime.datetime.now(datetime.timezone.utc)
 
 @pytest.fixture(autouse=True, scope='session')
 def set_test_mode_and_reload_environment():
-    os.environ['MEMENTO_TEST_MODE'] = 'true'
+    # Explicitly import the configuration module
+    from twosigma.memento import configuration
+    # Reload the configuration module to update the Environment class
     importlib.reload(configuration)
+    # Diagnostic print to check if 'is_test_mode' method is present after reload
+    print("Diagnostic - is_test_mode method presence after reload:", hasattr(configuration.Environment, 'is_test_mode'))
     yield
     os.environ['MEMENTO_TEST_MODE'] = 'false'
 
