@@ -10,8 +10,10 @@ from functools import wraps
 from typing import Dict
 import sys
 
-# Now, import the Environment class with the test mode settings applied
+# Ensure that the Environment class is imported only once and in the correct order
 from twosigma.memento.configuration import Environment
+
+print("Diagnostic - MEMENTO_TEST_MODE immediately after set:", os.environ['MEMENTO_TEST_MODE'])
 
 print("Diagnostic - Environment class dictionary immediately after import:", Environment.__dict__)
 
