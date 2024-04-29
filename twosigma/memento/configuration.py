@@ -716,9 +716,9 @@ def _load_environment() -> Environment:
         :return: True if in test mode, False otherwise.
         """
         return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
+    print("Diagnostic - Environment.__dict__ after is_test_mode definition:", Environment.__dict__)
 
 # Explicitly set the is_test_mode method on the Environment class to ensure its availability
-Environment.is_test_mode = lambda cls: os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
 
 print("Diagnostic - Environment.__dict__ after class definition:", Environment.__dict__)
 
