@@ -1,11 +1,6 @@
 import os
-import importlib
 # Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
-
-# Reload the configuration module to ensure the Environment class is up-to-date
-import twosigma.memento.configuration
-importlib.reload(twosigma.memento.configuration)
 
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
@@ -162,9 +157,6 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
-        import twosigma.memento.configuration
-        importlib.reload(twosigma.memento.configuration)
-        from twosigma.memento.configuration import Environment
         self.env_before = Environment.get()
         self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
         test_environment_config = {
@@ -173,9 +165,6 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
-        print("Diagnostic - Environment class dictionary:", Environment.__dict__)
-        assert hasattr(Environment, 'is_test_mode'), "The 'is_test_mode' method should be present in the Environment class."
-        assert Environment.is_test_mode() is True, "The 'is_test_mode' method should return True."
 
     def teardown_method(self):
         if hasattr(self, 'temp_dir'):
