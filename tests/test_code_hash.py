@@ -1,6 +1,8 @@
 import os
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
+print("Diagnostic - MEMENTO_TEST_MODE immediately after set:", os.environ['MEMENTO_TEST_MODE'])
+
 import pytest
 import shutil
 import tempfile
@@ -10,6 +12,8 @@ import sys
 
 # Now, import the Environment class with the test mode settings applied
 from twosigma.memento.configuration import Environment
+
+print("Diagnostic - Environment class dictionary immediately after import:", Environment.__dict__)
 
 print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
 print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
