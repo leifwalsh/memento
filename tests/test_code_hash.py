@@ -169,8 +169,8 @@ class TestCodeHash:
 
         # Set up a dummy call stack frame to simulate a non-top-level call stack
         from twosigma.memento.call_stack import CallStack, StackFrame
-        from twosigma.memento.invocation_metadata import FunctionReferenceWithArguments, InvocationMetadata
-        from twosigma.memento.invocation_metadata import FunctionReference
+
+        # Removed import statements for non-existent invocation_metadata module
 
         dummy_fn_ref_with_args = FunctionReferenceWithArguments(
             fn_reference=FunctionReference(qualified_name="dummy_function"),
