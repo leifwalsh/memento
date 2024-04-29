@@ -51,6 +51,10 @@ class StackFrame:
         runner: RunnerBackend,
         recursive_context: RecursiveContext,
     ):
+        # Diagnostic print to check the state of the runner object
+        print(f"Diagnostic - Runner object before to_dict call: {runner}")
+        # Diagnostic print to check the state of the recursive_context object
+        print(f"Diagnostic - Recursive context before accessing correlation_id: {recursive_context}")
         self.memento = Memento(
             time=datetime.datetime.now(datetime.timezone.utc),
             invocation_metadata=InvocationMetadata(
@@ -61,8 +65,8 @@ class StackFrame:
                 resources=[],
             ),
             function_dependencies={fn_reference_with_args.fn_reference},
-            runner=runner.to_dict(),
-            correlation_id=recursive_context.correlation_id,
+            runner=runner.to_dict() if runner else None,
+            correlation_id=recursive_context.correlation_id if recursive_context else None,
             content_key=None,
         )
         self.recursive_context = recursive_context

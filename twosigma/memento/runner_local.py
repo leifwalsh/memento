@@ -175,7 +175,8 @@ def memento_run_batch(
     calling_frame = call_stack.get_calling_frame()
     caller_memento = calling_frame.memento if calling_frame else None
 
-    if calling_frame and calling_frame.recursive_context.prevent_further_calls:
+    # Check if calling_frame and recursive_context are not None before accessing prevent_further_calls
+    if calling_frame and calling_frame.recursive_context and calling_frame.recursive_context.prevent_further_calls:
         raise RuntimeError("Further Memento calls are prevented in this context.")
 
     if caller_memento:

@@ -204,22 +204,14 @@ class TestCodeHash:
         print("Diagnostic - Environment.__dict__ before setting test environment:", Environment.__dict__)
         Environment.set(test_environment_config)
         print("Diagnostic - Environment.__dict__ after setting test environment:", Environment.__dict__)
-        # Push a dummy StackFrame onto the CallStack
-        dummy_frame = StackFrame(None, None, None)
-        CallStack.get().push_frame(dummy_frame)
-        # Diagnostic print to confirm StackFrame is on the CallStack
-        print(f"Diagnostic - CallStack after pushing dummy frame: {CallStack.get()._frames}")
+        # Removed the pushing of dummy StackFrame onto the CallStack
         print("Diagnostic - CallStack depth after setup: {}".format(CallStack.get().depth()))
         print("Diagnostic - setup_method completed")
 
     def teardown_method(self):
         print("Diagnostic - teardown_method called")
         print("Diagnostic - CallStack depth before teardown: {}".format(CallStack.get().depth()))
-        # Pop the dummy StackFrame off the CallStack
-        if CallStack.get().depth() > 0:
-            CallStack.get().pop_frame()
-        else:
-            print("Diagnostic - CallStack was empty when expected to have a dummy frame")
+        # Removed the popping of dummy StackFrame off the CallStack
         print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
@@ -227,13 +219,25 @@ class TestCodeHash:
         print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
         print("Diagnostic - teardown_method completed")
 
+    from contextlib import contextmanager
+
+    @contextmanager
+    def call_stack_context():
+        frame = StackFrame()
+        CallStack.get().push_frame(frame)
+        try:
+            yield
+        finally:
+            CallStack.get().pop_frame()
+
     def test_fn_code_hash(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash:", Environment.__dict__)
         # Corrected expected hash value for the one_plus_one function
         expected_hash = "52b3573abb5981cf"
         # Diagnostic print to check the CallStack before calling the MementoFunction
         print(f"Diagnostic - CallStack before calling MementoFunction: {CallStack.get()}")
-        actual_hash = fn_code_hash(one_plus_one)
+        with self.call_stack_context():
+            actual_hash = fn_code_hash(one_plus_one)
         # Diagnostic print to check the CallStack after calling the MementoFunction
         print(f"Diagnostic - CallStack after calling MementoFunction: {CallStack.get()}")
         assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
@@ -241,10 +245,14 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_salt(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_salt:", Environment.__dict__)
-        prev_hash = fn_code_hash(one_plus_one)
-        hash_with_salt_a = fn_code_hash(one_plus_one, salt="a")
-        hash_with_salt_a2 = fn_code_hash(one_plus_one, salt="a")
-        hash_with_salt_b = fn_code_hash(one_plus_one, salt="b")
+        with self.call_stack_context():
+            prev_hash = fn_code_hash(one_plus_one)
+        with self.call_stack_context():
+            hash_with_salt_a = fn_code_hash(one_plus_one, salt="a")
+        with self.call_stack_context():
+            hash_with_salt_a2 = fn_code_hash(one_plus_one, salt="a")
+        with self.call_stack_context():
+            hash_with_salt_b = fn_code_hash(one_plus_one, salt="b")
 
         assert prev_hash != hash_with_salt_a
         assert hash_with_salt_a == hash_with_salt_a2
@@ -253,10 +261,14 @@ class TestCodeHash:
 
     def test_fn_code_hash_with_environment(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash_with_environment:", Environment.__dict__)
-        prev_hash = fn_code_hash(one_plus_one)
-        hash_with_env_a = fn_code_hash(one_plus_one, environment=b"a")
-        hash_with_env_a2 = fn_code_hash(one_plus_one, environment=b"a")
-        hash_with_env_b = fn_code_hash(one_plus_one, environment=b"b")
+        with self.call_stack_context():
+            prev_hash = fn_code_hash(one_plus_one)
+        with self.call_stack_context():
+            hash_with_env_a = fn_code_hash(one_plus_one, environment=b"a")
+        with self.call_stack_context():
+            hash_with_env_a2 = fn_code_hash(one_plus_one, environment=b"a")
+        with self.call_stack_context():
+            hash_with_env_b = fn_code_hash(one_plus_one, environment=b"b")
 
         assert prev_hash != hash_with_env_a
         assert hash_with_env_a == hash_with_env_a2
