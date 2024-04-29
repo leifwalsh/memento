@@ -4,3 +4,6 @@ diagnostic_output.txt
 diagnostic_output_end.txt
 diagnostic_output_head.txt
 diagnostic_output_middle.txt
+.coverage
+tests/__pycache__/
+twosigma/memento/__pycache__/
