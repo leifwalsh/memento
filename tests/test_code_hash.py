@@ -180,7 +180,9 @@ class TestCodeHash:
             "base_dir": self.temp_dir,
             "repos": []
         }
+        print("Diagnostic - Environment.__dict__ before setting test environment:", Environment.__dict__)
         Environment.set(test_environment_config)
+        print("Diagnostic - Environment.__dict__ after setting test environment:", Environment.__dict__)
         print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
 
     def teardown_method(self):
