@@ -163,6 +163,7 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
+        print("Diagnostic - Environment.__dict__ before test setup:", Environment.__dict__)
         # Removed the redundant reload and import of the Environment class
         self.env_before = Environment.get()
         self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
@@ -193,9 +194,10 @@ class TestCodeHash:
 
         self.original_call_stack = CallStack.get()
 
-        print("Diagnostic - Environment class dictionary after setup:", Environment.__dict__)
+        print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
 
     def teardown_method(self):
+        print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
@@ -203,6 +205,7 @@ class TestCodeHash:
         # Restore the original call stack
         if hasattr(self, 'original_call_stack') and self.original_call_stack._frames:
             self.original_call_stack.pop_frame()
+        print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
 
     def test_fn_code_hash(self):
         # Corrected expected hash value for the one_plus_one function
