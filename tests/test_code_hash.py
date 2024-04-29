@@ -162,6 +162,9 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
+        import twosigma.memento.configuration
+        importlib.reload(twosigma.memento.configuration)
+        from twosigma.memento.configuration import Environment
         self.env_before = Environment.get()
         self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
         test_environment_config = {
