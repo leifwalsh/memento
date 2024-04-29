@@ -26,7 +26,7 @@ from tqdm.auto import tqdm
 
 from .call_stack import CallStack, StackFrame
 from .exception import MementoException, RemoteCallException, NonMemoizedException
-from .context import InvocationContext
+from .context import InvocationContext, RecursiveContext
 from .memento_logging import log
 from .metadata import Memento, ResultType
 from .reference import FunctionReferenceWithArguments
@@ -175,35 +175,30 @@ def memento_run_batch(
     calling_frame = call_stack.get_calling_frame()
     caller_memento = calling_frame.memento if calling_frame else None
 
-    # Check if calling_frame and recursive_context are not None before accessing prevent_further_calls
-    if calling_frame and calling_frame.recursive_context and calling_frame.recursive_context.prevent_further_calls:
-        raise RuntimeError("Further Memento calls are prevented in this context.")
-
     if caller_memento:
         # If the caller memento exists, pass down its correlation id and other fields
         context = context.update_recursive(
             "correlation_id", caller_memento.correlation_id
         )
-        context = context.update_recursive(
-            "retry_on_remote_call", calling_frame.recursive_context.retry_on_remote_call
-        )
-        if context.recursive.context_args is None:
-            # Only update the context args from the call stack if not overridden in this call
+        # Ensure that calling_frame.recursive_context is not None before updating context
+        if calling_frame and calling_frame.recursive_context:
             context = context.update_recursive(
-                "context_args", calling_frame.recursive_context.context_args
+                "retry_on_remote_call", calling_frame.recursive_context.retry_on_remote_call
             )
-
-            # Update the fn_reference_with_args since the context args could change the
-            # argument hash
-            fn_reference_with_args = [
-                FunctionReferenceWithArguments(
-                    ref.fn_reference,
-                    ref.args,
-                    ref.kwargs,
-                    context.recursive.context_args,
+            if context.recursive.context_args is None:
+                # Only update the context args from the call stack if not overridden in this call
+                context = context.update_recursive(
+                    "context_args", calling_frame.recursive_context.context_args
                 )
-                for ref in fn_reference_with_args
-            ]
+        else:
+            # Initialize a new RecursiveContext if calling_frame or calling_frame.recursive_context is None
+            new_recursive_context = RecursiveContext(
+                correlation_id=caller_memento.correlation_id,
+                retry_on_remote_call=False,  # Default value, can be updated as needed
+                prevent_further_calls=False,  # Default value, can be updated as needed
+                context_args={}  # Default value, can be updated as needed
+            )
+            context = InvocationContext(recursive=new_recursive_context, local=context.local)
 
     return runner.batch_run(
         context=context,
