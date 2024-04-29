@@ -195,7 +195,7 @@ class TestCodeHash:
         Environment.set(self.env_before)
 
         # Restore the original call stack
-        if hasattr(self, 'original_call_stack'):
+        if hasattr(self, 'original_call_stack') and self.original_call_stack._frames:
             self.original_call_stack.pop_frame()
 
     def test_fn_code_hash(self):
