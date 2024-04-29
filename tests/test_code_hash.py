@@ -174,38 +174,10 @@ class TestCodeHash:
         }
         Environment.set(test_environment_config)
 
-        # Set up a dummy call stack frame to simulate a non-top-level call stack
-        from twosigma.memento.call_stack import CallStack, StackFrame
-
-        # Removed import statements for non-existent invocation_metadata module
-
-        # dummy_fn_ref_with_args = FunctionReferenceWithArguments(
-        #     fn_reference=FunctionReference(qualified_name="dummy_function"),
-        #     args=(),
-        #     kwargs={},
-        #     context_args={}
-        # )
-        # dummy_stack_frame = StackFrame(
-        #     fn_reference_with_args=dummy_fn_ref_with_args,
-        #     runner=None,  # Set runner to None as RunnerBackend is removed
-        #     recursive_context={}
-        # )
-        # self.original_call_stack.push_frame(dummy_stack_frame)
-
-        self.original_call_stack = CallStack.get()
-
-        print("Diagnostic - Environment.__dict__ after test setup:", Environment.__dict__)
-
     def teardown_method(self):
-        print("Diagnostic - Environment.__dict__ before test teardown:", Environment.__dict__)
         if hasattr(self, 'temp_dir'):
             shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
-
-        # Restore the original call stack
-        if hasattr(self, 'original_call_stack') and self.original_call_stack._frames:
-            self.original_call_stack.pop_frame()
-        print("Diagnostic - Environment.__dict__ after test teardown:", Environment.__dict__)
 
     def test_fn_code_hash(self):
         # Corrected expected hash value for the one_plus_one function
