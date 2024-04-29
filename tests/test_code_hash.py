@@ -163,11 +163,8 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
-        # Diagnostic check for 'is_test_mode' method
-        if not hasattr(Environment, 'is_test_mode'):
-            print("Diagnostic - 'is_test_mode' method not found in Environment class.")
-        else:
-            print("Diagnostic - 'is_test_mode' method found in Environment class:", Environment.is_test_mode())
+        assert hasattr(Environment, 'is_test_mode'), "The 'is_test_mode' method should be present in the Environment class."
+        assert Environment.is_test_mode() is True, "The 'is_test_mode' method should return True."
 
     def teardown_method(self):
         if hasattr(self, 'temp_dir'):
