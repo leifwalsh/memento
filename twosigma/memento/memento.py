@@ -257,6 +257,8 @@ class MementoFunction(MementoFunctionBase):
                                 the original function is already registered.
 
         """
+        print("Entering MementoFunction constructor")
+        print(f"Wrapping function: {fn.__name__ if fn else 'None'}")
         assert inspect.isfunction(fn), "fn {} is not a function".format(fn)
         assert not isinstance(
             fn, MementoFunctionType
