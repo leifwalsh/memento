@@ -165,6 +165,8 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
+        # Diagnostic print to check the presence of 'is_test_mode' method in Environment
+        print("Diagnostic - Environment class dictionary after setup:", Environment.__dict__)
 
     def teardown_method(self):
         if hasattr(self, 'temp_dir'):
