@@ -1,3 +1,5 @@
+print("Diagnostic - configuration.py is being loaded.")
+
 # Copyright (c) 2023 Two Sigma Investments, LP.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -708,5 +710,5 @@ def _load_environment() -> Environment:
 
         :return: True if in test mode, False otherwise.
         """
-        print("Diagnostic - is_test_mode method is being called. MEMENTO_TEST_MODE:", os.getenv('MEMENTO_TEST_MODE', 'False'))
+        print("Diagnostic - is_test_mode method is being called. MEMENTO_TEST_MODE:", os.getenv('MEMENTO_TEST_MODE', 'False'), "Method is_test_mode is present in Environment class.")
         return os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
