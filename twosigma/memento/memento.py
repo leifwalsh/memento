@@ -20,6 +20,7 @@ from collections import namedtuple
 from typing import Callable, Dict, Any, Tuple, List, Union, Optional, Set, cast
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
+from . import configuration
 import importlib
 import os
 
