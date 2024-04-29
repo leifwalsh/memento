@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import os
+import importlib
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
 import datetime
