@@ -1,17 +1,20 @@
 import os
+import importlib
 # Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
-print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
+# Reload configuration module to pick up changes such as is_test_mode method
+import twosigma.memento.configuration as configuration
+importlib.reload(configuration)
 
-# Now, import the Environment class
+# Now, import the Environment class with the test mode settings applied
 from twosigma.memento.configuration import Environment
 
-print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
+print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
 
+print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
 import pytest
 import shutil
-import importlib
 import tempfile
 from functools import wraps
 from typing import Dict
@@ -160,10 +163,7 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
-        import twosigma.memento.configuration
-        importlib.reload(twosigma.memento.configuration)
-        # Removed the redundant import statement of Environment
-
+        # Removed the redundant reload and import of the Environment class
         self.env_before = Environment.get()
         self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
         test_environment_config = {
