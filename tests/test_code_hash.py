@@ -37,7 +37,25 @@ def set_test_mode(monkeypatch):
 
 @memento_function()
 def one_plus_one():
-    return 1 + 1
+    # Diagnostic print to trace MementoFunction creation
+    print(f"Diagnostic - Creating MementoFunction for one_plus_one")
+
+    # Diagnostic print to trace CallStack state before function call
+    print(f"Diagnostic - CallStack before calling one_plus_one: {CallStack.get()}")
+
+    result = 1 + 1
+
+    # Diagnostic print to trace CallStack state after function call
+    print(f"Diagnostic - CallStack after calling one_plus_one: {CallStack.get()}")
+
+    # Diagnostic print to check frame.memento attribute
+    frame = CallStack.get().get_calling_frame()
+    if frame is not None:
+        print(f"Diagnostic - frame.memento for one_plus_one: {getattr(frame, 'memento', 'Attribute not found')}")
+    else:
+        print(f"Diagnostic - No calling frame for one_plus_one")
+
+    return result
 
 
 @memento_function()
