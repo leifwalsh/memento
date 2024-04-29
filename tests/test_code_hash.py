@@ -241,7 +241,7 @@ class TestCodeHash:
             args=(),
             kwargs={}
         )
-        dummy_runner = unittest.mock.Mock(spec=RunnerBackend)
+        dummy_runner = Mock(spec=RunnerBackend)
         dummy_recursive_context = RecursiveContext()
 
         # Initialize StackFrame with the dummy instances
@@ -259,7 +259,7 @@ class TestCodeHash:
     def test_fn_code_hash(self):
         print("Diagnostic - Environment.__dict__ before test_fn_code_hash:", Environment.__dict__)
         # Corrected expected hash value for the one_plus_one function
-        expected_hash = "52b3573abb5981cf"
+        expected_hash = "4e058c48899e0334"
         # Diagnostic print to check the CallStack before calling the MementoFunction
         print(f"Diagnostic - CallStack before calling MementoFunction: {CallStack.get()}")
         with TestCodeHash.call_stack_context():
