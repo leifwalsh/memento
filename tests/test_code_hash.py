@@ -1,6 +1,8 @@
 import os
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
+from twosigma.memento.configuration import Environment
+
 # Copyright (c) 2023 Two Sigma Investments, LP.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
