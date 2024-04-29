@@ -1,13 +1,9 @@
 import os
-
-# Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
 import importlib
-from twosigma.memento import configuration
-
-# Reload the configuration module to ensure the Environment class is updated
-importlib.reload(configuration)
+import twosigma.memento.configuration
+importlib.reload(twosigma.memento.configuration)
 from twosigma.memento.configuration import Environment
 
 import pytest
