@@ -2,6 +2,8 @@ import os
 # Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
+print("Diagnostic - MEMENTO_TEST_MODE set to:", os.environ['MEMENTO_TEST_MODE'])
+
 # Now, import the Environment class
 from twosigma.memento.configuration import Environment
 
@@ -163,6 +165,7 @@ class TestCodeHash:
             "repos": []
         }
         Environment.set(test_environment_config)
+        print("Diagnostic - Environment class dictionary:", Environment.__dict__)
         assert hasattr(Environment, 'is_test_mode'), "The 'is_test_mode' method should be present in the Environment class."
         assert Environment.is_test_mode() is True, "The 'is_test_mode' method should return True."
 
