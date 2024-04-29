@@ -1,32 +1,19 @@
-import os
 import importlib
-import twosigma.memento.configuration as memento_config
+import os
+from twosigma.memento import configuration
 
+# Set the MEMENTO_TEST_MODE environment variable at the very beginning
 os.environ['MEMENTO_TEST_MODE'] = 'true'
-importlib.reload(memento_config)
-from twosigma.memento.configuration import Environment
 
-# Copyright (c) 2023 Two Sigma Investments, LP.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Reload the configuration module to ensure the Environment class is updated
+importlib.reload(configuration)
 
+import pytest
 import shutil
 import tempfile
 from functools import wraps
 from typing import Dict
 import sys
-
-import pytest
 
 from twosigma.memento import MementoFunction
 from twosigma.memento.exception import UndeclaredDependencyError
@@ -37,11 +24,6 @@ from twosigma.memento.code_hash import (
     resolve_to_symbolic_names,
     UndefinedSymbolHashRule,
 )
-
-@pytest.fixture(autouse=True)
-def set_test_mode():
-    os.environ['MEMENTO_TEST_MODE'] = 'true'
-    yield
 
 @memento_function()
 def one_plus_one():
@@ -176,20 +158,23 @@ def top_level_caller():
 class TestCodeHash:
 
     def setup_method(self):
-        # Diagnostic print statements to check the presence of 'is_test_mode' method
-        print("Checking if 'is_test_mode' is in Environment:", hasattr(Environment, 'is_test_mode'))
-        if hasattr(Environment, 'is_test_mode'):
-            print("Output of 'is_test_mode':", Environment().is_test_mode())
-
         self.env_before = Environment.get()
-        self.env_dir = tempfile.mkdtemp(prefix="memoizeTest")
-        env_file = "{}/env.json".format(self.env_dir)
-        with open(env_file, "w") as f:
-            print("""{"name": "test"}""", file=f)
-        Environment.set(env_file)
+        self.temp_dir = tempfile.mkdtemp(prefix="memoizeTest")
+        test_environment_config = {
+            "name": "test",
+            "base_dir": self.temp_dir,
+            "repos": []
+        }
+        Environment.set(test_environment_config)
+        # Diagnostic check for 'is_test_mode' method
+        if not hasattr(Environment, 'is_test_mode'):
+            print("Diagnostic - 'is_test_mode' method not found in Environment class.")
+        else:
+            print("Diagnostic - 'is_test_mode' method found in Environment class:", Environment.is_test_mode())
 
     def teardown_method(self):
-        shutil.rmtree(self.env_dir)
+        if hasattr(self, 'temp_dir'):
+            shutil.rmtree(self.temp_dir)
         Environment.set(self.env_before)
 
     def test_fn_code_hash(self):
