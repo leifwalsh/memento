@@ -708,16 +708,8 @@ def _load_environment() -> Environment:
         # No config file found. Use a suitable default
         return Environment(name="default")
 
-    @classmethod
-    def is_test_mode(cls) -> bool:
-        """
-        Determine if the current environment is a test environment.
-
-        :return: True if in test mode, False otherwise.
-        """
-        test_mode = os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
-        print(f"Diagnostic - is_test_mode method called. Result: {test_mode}")
-        return test_mode
+# Explicitly set the is_test_mode method on the Environment class to ensure its availability
+Environment.is_test_mode = lambda cls: os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
 
 print("Diagnostic - Environment.__dict__ after class definition:", Environment.__dict__)
 
