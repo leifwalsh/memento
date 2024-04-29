@@ -1,9 +1,9 @@
 import os
 import importlib
-import twosigma.memento.configuration
+import twosigma.memento.configuration as memento_config
 
 os.environ['MEMENTO_TEST_MODE'] = 'true'
-importlib.reload(twosigma.memento.configuration)
+importlib.reload(memento_config)
 from twosigma.memento.configuration import Environment
 
 # Copyright (c) 2023 Two Sigma Investments, LP.
