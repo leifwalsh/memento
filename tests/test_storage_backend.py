@@ -287,6 +287,7 @@ class StorageBackendTester(ABC):
     @staticmethod
     def get_dummy_memento(
         fn_reference_with_args: FunctionReferenceWithArguments,
+        result_type: Optional[ResultType] = ResultType.string,
     ) -> Memento:
         now = datetime.datetime.now(datetime.timezone.utc)
         return Memento(
@@ -294,7 +295,7 @@ class StorageBackendTester(ABC):
             invocation_metadata=InvocationMetadata(
                 runtime=datetime.timedelta(seconds=123.0),
                 fn_reference_with_args=fn_reference_with_args,
-                result_type=ResultType.string,
+                result_type=result_type,
                 invocations=[],
                 resources=[],
             ),
