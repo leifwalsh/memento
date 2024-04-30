@@ -556,6 +556,8 @@ class MementoFunction(MementoFunctionBase):
             frame.memento.invocation_metadata.runtime = end_time - start_time
             # Determine result type
             result_type = ResultType.from_value(result)
+            if result_type == ResultType.OTHER and result is None:
+                result_type = ResultType.NONE  # Explicitly set the result type to NONE for None values
             frame.memento.invocation_metadata.result_type = result_type
             # Wrap the result in a MementoResultContainer to handle the memento attribute
             result = MementoResultContainer(result, frame.memento)
