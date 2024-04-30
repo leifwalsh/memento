@@ -54,7 +54,6 @@ scripts = {
   cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=twosigma.memento --cov=tests {args}",
   no-cov = "cov --no-cov {args}"
 }
-pythonpath = ["/home/ubuntu/memento"]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["38", "39", "310", "311"]
