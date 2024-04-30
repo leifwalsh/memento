@@ -1,0 +1,237 @@
+        with pytest.raises(KeyError):
+        with pytest.raises(KeyError):
+E       KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_raise_value_error#9327826f771e7eba/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_none_1#f69c37869b76ce83/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_str#d00d1c7aa8c98397/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_int#1ea57598ca8950d3/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_float#0455aec8aa749fb7/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_bool#9dde0cdadaaed1e3/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_date#b6108da3d66974eb/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_time#1531e341a8d6cc4c/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_dictionary#2ab963cc72ce9a6e/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_list#a35c7aead53ce0be/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_2d_array#a6f49c1be257008e/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_bool#b4d5b870f3d2e7dc/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int8#9f49e3e58d49b240/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int16#d0bc9628bb0831a5/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int32#9dc2b398207a6864/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int64#84d0143e0044c39f/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_float32#853efbf623ad5c3a/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_float64#870d134908b9a36f/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_index#b6492a4452fb0b2c/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_series#d77fefd73a92312c/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_series_with_index#398e09d739a63b96/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_series_with_multiindex#07324da63136d5d9/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_dataframe#7d2e8ca5462b2f28/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_dataframe_with_index#89d7b632671af35d/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_partition#ff65d015f37a92cd/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_return_partition_with_parent_a#54dbf438472a3293/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e/015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e/015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e/015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862'
+twosigma/memento/storage_memory.py:87: KeyError
+E       KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/f0015e5829a1311e9b61ef10cb18c6e783cc512e3989d3679f7622425a244a72'
+twosigma/memento/storage_memory.py:87: KeyError
+FAILED tests/test_code_hash.py::TestCodeHash::test_fn_code_hash - AssertionError: Expected hash: 4e058c48899e0334, Actual hash: 8be6343f7b497448
+FAILED tests/test_code_hash.py::TestCodeHash::test_dep_a - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_dep_a_with_function_in_dot_path - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_dep_with_embedded_fn - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_non_memento_fn - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_redefine_memento_fn_as_non_memento_fn - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_late_define_non_memento_fn - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_fn_with_local_vars - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_fn_with_cell_vars - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_cluster_lock_prevents_version_update - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_call_fn_param - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_safe_to_call_memento_fn_wrappers - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_undefined_symbol_hash_rule - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_wrapped_one_plus_one - ValueError: result_type cannot be None.
+FAILED tests/test_code_hash.py::TestCodeHash::test_memento_function_with_undeclared_dependency - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memoize - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memoize_with_arg - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memoize_with_kwarg - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memoize_kwarg_order_doesnt_matter - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_forget - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_forget_with_arg - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_dataframe - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_return_type_recorded - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_robust_handling_of_io_error_during_memoization - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_validate_args - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_force_local - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_ignore_result - AssertionError: assert MementoResultContainer(result=None, memento=Memento(...
+FAILED tests/test_memento_function.py::TestMemoize::test_ignore_result_local - AssertionError: assert MementoResultContainer(result=None, memento=Memento(...
+FAILED tests/test_memento_function.py::TestMemoize::test_handle_exception - assert False
+FAILED tests/test_memento_function.py::TestMemoize::test_partial - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_partial_as_argument - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memento - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_list_memoized_functions - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_list_mementos - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_trace - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_trace_max_depth - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_trace_only_exceptions - AttributeError: 'NoneType' object has no attribute 'trace'
+FAILED tests/test_memento_function.py::TestMemoize::test_graph - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_graph_max_depth - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_graph_only_exceptions - AttributeError: 'NoneType' object has no attribute 'graph'
+FAILED tests/test_memento_function.py::TestMemoize::test_memento_forget - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_memento_forget_exceptions_recursively - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_fib - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_map_over_range - AttributeError: 'NoneType' object has no attribute 'memento'
+FAILED tests/test_memento_function.py::TestMemoize::test_call_batch - AttributeError: 'NoneType' object has no attribute 'memento'
+FAILED tests/test_memento_function.py::TestMemoize::test_call_batch_raise_first_exception - AttributeError: 'NoneType' object has no attribute 'memento'
+FAILED tests/test_memento_function.py::TestMemoize::test_monitor_progress - AttributeError: 'NoneType' object has no attribute 'memento'
+FAILED tests/test_memento_function.py::TestMemoize::test_allows_static_methods - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_new_version_invalidates_memoized_data - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_new_version_invalidates_dependent_memoized_data - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::TestMemoize::test_list - ValueError: result_type cannot be None.
+FAILED tests/test_memento_function.py::test_memento_result_container_serialization - TypeError: cannot pickle 'str' object
+FAILED tests/test_reference.py::TestReference::test_find - ValueError: result_type cannot be None.
+FAILED tests/test_reference.py::TestReference::test_timestamp_arg - ValueError: result_type cannot be None.
+FAILED tests/test_reference.py::TestReference::test_detected_dependencies_do_not_fail_if_not_present - ValueError: result_type cannot be None.
+FAILED tests/test_reference.py::TestReference::test_circular_references_work - ValueError: result_type cannot be None.
+FAILED tests/test_reference.py::TestReference::test_static_method_dependencies - ValueError: result_type cannot be None.
+FAILED tests/test_resource.py::TestResource::test_resource_dependency - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_memoize - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_call_stack_invocations_tracked - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_correlation_id - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_prevent_further_calls - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_refuse_execution_of_non_dependencies - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_key_override_result - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_memento_dependencies - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_memento_graph - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_memoize_in_process - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_ignore_result - AssertionError: assert MementoResultContainer(result=None, memento=Memento(...
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_memoized_invocations - ValueError: result_type cannot be None.
+FAILED tests/test_runner_local.py::TestRunnerLocal::test_mutex - ValueError: result_type cannot be None.
+FAILED tests/test_serialization.py::TestSerialization::test_memento - ValueError: result_type cannot be None.
+FAILED tests/test_serialization.py::TestSerialization::test_invocation_metadata - ValueError: result_type cannot be None.
+FAILED tests/test_storage_base.py::TestMemoryCache::test_get_mementos - AssertionError: assert <ResultType.number: (5,)> == <ResultType.string: (3,)>
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_list_functions - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_list_mementos - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_null - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_str - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_int - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_float - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_bool - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_date - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_time - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_dictionary - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_list - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_2d_array - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_bool - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_int8 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_int16 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_int32 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_int64 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_float32 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_numpy_array_float64 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_series - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_series_with_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_series_with_multiindex - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_dataframe - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_dataframe_with_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_partition - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_memoize_partition_with_parent - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_make_url_for_result - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_readonly - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_metadata_rw - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_metadata_rw_store_with_data - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystem::test_content_addressable_storage - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_list_functions - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_list_mementos - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_null - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_str - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_int - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_float - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_bool - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_date - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_time - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_dictionary - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_list - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_2d_array - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_bool - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_int8 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_int16 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_int32 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_int64 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_float32 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_numpy_array_float64 - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_series - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_series_with_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_series_with_multiindex - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_dataframe - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_dataframe_with_index - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_partition - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_memoize_partition_with_parent - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_make_url_for_result - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_readonly - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_metadata_rw - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_metadata_rw_store_with_data - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_content_addressable_storage - ValueError: result_type cannot be None.
+FAILED tests/test_storage_filesystem.py::TestStorageFilesystemWithMemoryCache::test_cache_eviction - AttributeError: module 'twosigma.memento' has no attribute 'ResultType'
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_list_functions - KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/015abd...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_list_mementos - KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/015abd...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_exception - KeyError: 'cluster1::tests.test_storage_backend:fn_raise_value_error#932782...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_null - KeyError: 'cluster1::tests.test_storage_backend:fn_return_none_1#f69c37869b...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_str - KeyError: 'cluster1::tests.test_storage_backend:fn_return_str#d00d1c7aa8c98...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_int - KeyError: 'cluster1::tests.test_storage_backend:fn_return_int#1ea57598ca895...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_float - KeyError: 'cluster1::tests.test_storage_backend:fn_return_float#0455aec8aa7...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_bool - KeyError: 'cluster1::tests.test_storage_backend:fn_return_bool#9dde0cdadaae...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_date - KeyError: 'cluster1::tests.test_storage_backend:fn_return_date#b6108da3d669...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_time - KeyError: 'cluster1::tests.test_storage_backend:fn_return_time#1531e341a8d6...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_dictionary - KeyError: 'cluster1::tests.test_storage_backend:fn_return_dictionary#2ab963...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_list - KeyError: 'cluster1::tests.test_storage_backend:fn_return_list#a35c7aead53c...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_2d_array - KeyError: 'cluster1::tests.test_storage_backend:fn_return_2d_array#a6f49c1b...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_bool - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_bool#...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_int8 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int8#...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_int16 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int16...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_int32 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int32...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_int64 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_int64...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_float32 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_float...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_numpy_array_float64 - KeyError: 'cluster1::tests.test_storage_backend:fn_return_numpy_array_float...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_index - KeyError: 'cluster1::tests.test_storage_backend:fn_return_index#b6492a4452f...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_series - KeyError: 'cluster1::tests.test_storage_backend:fn_return_series#d77fefd73a...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_series_with_index - KeyError: 'cluster1::tests.test_storage_backend:fn_return_series_with_index...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_series_with_multiindex - KeyError: 'cluster1::tests.test_storage_backend:fn_return_series_with_multi...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_dataframe - KeyError: 'cluster1::tests.test_storage_backend:fn_return_dataframe#7d2e8ca...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_dataframe_with_index - KeyError: 'cluster1::tests.test_storage_backend:fn_return_dataframe_with_in...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_partition - KeyError: 'cluster1::tests.test_storage_backend:fn_return_partition#ff65d01...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_memoize_partition_with_parent - KeyError: 'cluster1::tests.test_storage_backend:fn_return_partition_with_pa...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_readonly - KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_metadata_rw - KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_metadata_rw_store_with_data - KeyError: 'cluster1::tests.test_storage_backend:fn_add_one#1eccadb03bb9d09e...
+FAILED tests/test_storage_memory.py::TestStorageMemory::test_content_addressable_storage - KeyError: 'cluster1::tests.test_storage_backend:fn1#92e30d3268d3b95b/f0015e...
+FAILED tests/test_storage_null.py::TestStorageNull::test_memoize - ValueError: Null backend has no memoized results for any invocations
