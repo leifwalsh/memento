@@ -184,26 +184,29 @@ class ResultType(Enum):
 
     @classmethod
     def from_value(cls, value):
+        print(f"from_value called with input: {value}, type: {type(value)}")  # Log the input value and its type
         if isinstance(value, str):
-            return cls.STRING
+            result_type = cls.STRING
         elif isinstance(value, int):
-            return cls.INTEGER
+            result_type = cls.INTEGER
         elif isinstance(value, float):
-            return cls.FLOAT
+            result_type = cls.FLOAT
         elif isinstance(value, bool):
-            return cls.BOOLEAN
+            result_type = cls.BOOLEAN
         elif value is None:
-            return cls.NONE
+            result_type = cls.NONE
         elif isinstance(value, datetime.date):
-            return cls.DATE
+            result_type = cls.DATE
         elif 'pandas' in sys.modules and isinstance(value, pandas.Series):
-            return cls.PANDAS_SERIES
+            result_type = cls.PANDAS_SERIES
         elif 'pandas' in sys.modules and isinstance(value, pandas.DataFrame):
-            return cls.PANDAS_DATAFRAME
+            result_type = cls.PANDAS_DATAFRAME
         elif 'numpy' in sys.modules and isinstance(value, numpy.ndarray):
-            return cls.NUMPY_ARRAY
+            result_type = cls.NUMPY_ARRAY
         else:
-            return cls.OTHER
+            result_type = cls.OTHER
+        print(f"from_value returning result_type: {result_type}")  # Log the result type being returned
+        return result_type
 
 class MementoFunction(MementoFunctionBase):
     """
