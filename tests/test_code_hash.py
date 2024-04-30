@@ -35,6 +35,14 @@ from twosigma.memento.code_hash import (
 from twosigma.memento.call_stack import FunctionReferenceWithArguments, RunnerBackend, RecursiveContext
 from twosigma.memento.reference import FunctionReference
 
+# Diagnostic print to check the Python path and InvocationMetadata location
+print("Diagnostic - Current Python path:", sys.path)
+try:
+    from twosigma.memento.metadata import InvocationMetadata
+    print("Diagnostic - InvocationMetadata location:", InvocationMetadata.__module__, InvocationMetadata.__name__)
+except ImportError as e:
+    print("Diagnostic - Error importing InvocationMetadata:", e)
+
 @pytest.fixture(autouse=True)
 def set_test_mode(monkeypatch):
     monkeypatch.setenv('MEMENTO_TEST_MODE', 'true')
