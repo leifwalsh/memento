@@ -18,6 +18,7 @@ import hashlib
 import inspect
 from collections import namedtuple
 from typing import Callable, Dict, Any, Tuple, List, Union, Optional, Set, cast
+import pickle
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
 import os
@@ -45,6 +46,113 @@ _MementoFunctionVersionCacheEntry = namedtuple(
     "_MementoFunctionVersionCacheEntry", ["as_of_generation", "version"]
 )
 
+
+class MementoResultContainer:
+    """
+    A container for holding the result of a MementoFunction call along with its memento data.
+    This is used for result types that do not support attribute assignment.
+    """
+    def __init__(self, result, memento):
+        self._result = result
+        self.memento = memento
+
+    def __getattr__(self, item):
+        return getattr(self._result, item)
+
+    def __getitem__(self, item):
+        return self._result[item]
+
+    def __setitem__(self, key, value):
+        self._result[key] = value
+
+    def __iter__(self):
+        return iter(self._result)
+
+    def __len__(self):
+        return len(self._result)
+
+    def __eq__(self, other):
+        if isinstance(other, MementoResultContainer):
+            return self._result == other._result
+        return self._result == other
+
+    def __add__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        return self.__class__(self._result + other, self.memento)
+
+    def __sub__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__sub__'):
+            return self.__class__(self._result.__sub__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for -: '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __mul__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__mul__'):
+            return self.__class__(self._result.__mul__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for *: '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __rmul__(self, other):
+        if hasattr(self._result, '__mul__'):
+            return self.__class__(self._result.__mul__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for *: '{other.__class__.__name__}' and 'MementoResultContainer'")
+
+    def __truediv__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__truediv__'):
+            return self.__class__(self._result.__truediv__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for /: '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __floordiv__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__floordiv__'):
+            return self.__class__(self._result.__floordiv__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for //: '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __mod__(self, other):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__mod__'):
+            return self.__class__(self._result.__mod__(other), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for %: '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __pow__(self, other, modulo=None):
+        if isinstance(other, MementoResultContainer):
+            other = other._result
+        if hasattr(self._result, '__pow__'):
+            return self.__class__(self._result.__pow__(other, modulo), self.memento)
+        else:
+            raise TypeError(f"Unsupported operand type(s) for ** or pow(): '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
+
+    def __reduce__(self):
+        # Check if the result has a custom __reduce__ method for serialization
+        if hasattr(self._result, '__reduce__'):
+            result_reduce = self._result.__reduce__()
+        else:
+            result_reduce = pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # Check if the memento has a custom __reduce__ method for serialization
+        if hasattr(self.memento, '__reduce__'):
+            memento_reduce = self.memento.__reduce__()
+        else:
+            memento_reduce = pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # Return a tuple that the pickle module can use to reconstruct the object
+        return (self.__class__, (result_reduce, memento_reduce))
+
+    def __repr__(self):
+        return f"MementoResultContainer(result={self._result}, memento={self.memento})"
 
 class MementoFunction(MementoFunctionBase):
     """
@@ -372,21 +480,29 @@ class MementoFunction(MementoFunctionBase):
     def call(self, *args, **kwargs):
         # Push a new StackFrame onto the CallStack before calling the function
         call_stack = CallStack.get()
-        print(f"Diagnostic - CallStack before pushing new frame: {call_stack}")
-        frame = StackFrame(fn_reference_with_args=self.fn_reference().with_args(*args, **kwargs),
+        fn_ref_with_args = self.fn_reference().with_args(*args, **kwargs)
+        frame = StackFrame(fn_reference_with_args=fn_ref_with_args,
                            runner=None,  # Runner will be determined by the backend
                            recursive_context=None)  # Recursive context is not needed for direct calls
-        print(f"Diagnostic - New StackFrame created: {frame}")
+        # Initialize memento attribute with a new Memento object
+        frame.memento = Memento(time=datetime.datetime.now(datetime.timezone.utc),
+                                invocation_metadata=InvocationMetadata(
+                                    fn_reference_with_args=fn_ref_with_args,
+                                    resources=[],
+                                ),
+                                function_dependencies={fn_ref_with_args.fn_reference},
+                                runner=None,
+                                correlation_id=None,
+                                content_key=None)
         call_stack.push_frame(frame)
-        print(f"Diagnostic - CallStack after pushing new frame: {call_stack}")
         try:
             self._validate_dependency()
             result = super(MementoFunction, self).call(*args, **kwargs)
+            # Wrap the result in a MementoResultContainer to handle the memento attribute
+            result = MementoResultContainer(result, frame.memento)
         finally:
             # Ensure the frame is popped from the CallStack even if an exception occurs
             popped_frame = call_stack.pop_frame()
-            print(f"Diagnostic - Popped StackFrame: {popped_frame}")
-            print(f"Diagnostic - CallStack after popping frame: {call_stack}")
         return result
 
     def call_batch(

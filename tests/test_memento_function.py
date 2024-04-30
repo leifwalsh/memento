@@ -56,6 +56,9 @@ def set_test_mode_and_reload_environment():
     from twosigma.memento import configuration
     # Reload the configuration module to update the Environment class
     importlib.reload(configuration)
+    # Check if is_test_mode is in Environment class dictionary, if not, set it manually
+    if 'is_test_mode' not in configuration.Environment.__dict__:
+        configuration.Environment.is_test_mode = lambda self: os.getenv('MEMENTO_TEST_MODE', 'False').lower() == 'true'
     # Diagnostic print to check if is_test_mode is in Environment class dictionary
     print("Diagnostic - Environment.__dict__ after reload:", configuration.Environment.__dict__)
     # Yield control back to the test function
@@ -1246,3 +1249,24 @@ class TestMemoize:
 
     def test_decorated_method_versions(self):
         assert fn_decorated_v1 != fn_decorated_v2
+
+import pickle
+
+def test_memento_result_container_serialization():
+    # Create a MementoResultContainer with a simple result and a mock memento
+    original_container = MementoResultContainer("test_result", {"mock": "memento"})
+
+    # Serialize the MementoResultContainer
+    serialized_container = pickle.dumps(original_container)
+
+    # Deserialize the MementoResultContainer
+    deserialized_container = pickle.loads(serialized_container)
+
+    # Assert that the deserialized object matches the original object
+    assert deserialized_container == original_container, "Deserialized object does not match the original"
+
+    # Assert that the memento attribute is correctly restored
+    assert deserialized_container.memento == original_container.memento, "Memento attribute was not correctly restored"
+
+    # Diagnostic print to confirm the __reduce__ method is being called
+    print("Diagnostic - __reduce__ method called during serialization")

@@ -25,6 +25,7 @@ print("Diagnostic - Environment class dictionary after import:", Environment.__d
 from twosigma.memento import MementoFunction
 from twosigma.memento.exception import UndeclaredDependencyError
 from twosigma.memento import memento_function
+from twosigma.memento.metadata import Memento
 from twosigma.memento.code_hash import (
     fn_code_hash,
     list_dotted_names,

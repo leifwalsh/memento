@@ -24,6 +24,7 @@ import pytz
 from twosigma.memento import memento_function, Environment, MementoFunction
 from twosigma.memento.exception import DependencyNotFoundError
 from twosigma.memento.external import UnboundExternalMementoFunction
+from twosigma.memento.metadata import Memento
 from twosigma.memento.reference import (
     FunctionReference,
     FunctionReferenceWithArguments,
