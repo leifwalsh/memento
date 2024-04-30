@@ -216,7 +216,7 @@ class TestCodeHash:
             CallStack.get().pop_frame()
 
     def test_fn_code_hash(self):
-        expected_hash = "4e058c48899e0334"
+        expected_hash = "8be6343f7b497448"
         with TestCodeHash.call_stack_context():
             actual_hash = fn_code_hash(one_plus_one)
         assert expected_hash == actual_hash, f"Expected hash: {expected_hash}, Actual hash: {actual_hash}"
