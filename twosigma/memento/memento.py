@@ -552,7 +552,10 @@ class MementoFunction(MementoFunctionBase):
             # Calculate runtime
             frame.memento.invocation_metadata.runtime = end_time - start_time
             # Determine result type
-            frame.memento.invocation_metadata.result_type = ResultType.from_value(result)
+            result_type = ResultType.from_value(result)
+            if result_type is ResultType.NONE:
+                result_type = ResultType.OTHER
+            frame.memento.invocation_metadata.result_type = result_type
             # Wrap the result in a MementoResultContainer to handle the memento attribute
             result = MementoResultContainer(result, frame.memento)
         finally:
