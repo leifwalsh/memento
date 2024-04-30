@@ -3,8 +3,6 @@ import math
 from unittest.mock import Mock
 os.environ['MEMENTO_TEST_MODE'] = 'true'
 
-print("Diagnostic - MEMENTO_TEST_MODE immediately after set:", os.environ['MEMENTO_TEST_MODE'])
-
 import pytest
 import shutil
 import tempfile
@@ -15,17 +13,12 @@ import sys
 # Ensure that the Environment class is imported only once and in the correct order
 from twosigma.memento.configuration import Environment
 
-print("Diagnostic - MEMENTO_TEST_MODE immediately after set:", os.environ['MEMENTO_TEST_MODE'])
-
-print("Diagnostic - Environment class dictionary immediately after import:", Environment.__dict__)
-
-print("Diagnostic - MEMENTO_TEST_MODE set to:", os.getenv('MEMENTO_TEST_MODE', 'False'))
-print("Diagnostic - Environment class dictionary after import:", Environment.__dict__)
-
 from twosigma.memento import MementoFunction
 from twosigma.memento.exception import UndeclaredDependencyError
 from twosigma.memento import memento_function
+
 from twosigma.memento.metadata import Memento, InvocationMetadata
+
 from twosigma.memento.code_hash import (
     fn_code_hash,
     list_dotted_names,
@@ -38,7 +31,6 @@ from twosigma.memento.reference import FunctionReference
 @pytest.fixture(autouse=True)
 def set_test_mode(monkeypatch):
     monkeypatch.setenv('MEMENTO_TEST_MODE', 'true')
-    print("Diagnostic - MEMENTO_TEST_MODE set by fixture:", os.environ['MEMENTO_TEST_MODE'])
 
 @memento_function()
 def one_plus_one():
