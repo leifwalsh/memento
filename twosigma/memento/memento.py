@@ -144,11 +144,15 @@ class MementoResultContainer:
         if hasattr(self._result, '__reduce__'):
             result_reduce = self._result.__reduce__()
         else:
+            # Diagnostic print to log the type and value of _result before pickling
+            print(f"Pickling _result of type {type(self._result)} with value: {self._result}")
             result_reduce = (pickle.loads, (pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL),))
         # Serialize the memento using its own __reduce__ method if available
         if hasattr(self.memento, '__reduce__'):
             memento_reduce = self.memento.__reduce__()
         else:
+            # Diagnostic print to log the type and value of memento before pickling
+            print(f"Pickling memento of type {type(self.memento)} with value: {self.memento}")
             memento_reduce = (pickle.loads, (pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL),))
         # Return a tuple that the pickle module can use to reconstruct the object
         # The first element is a callable that reconstructs the object,
