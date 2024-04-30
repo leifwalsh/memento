@@ -250,7 +250,9 @@ class TestCodeHash:
         assert hash_with_env_a != hash_with_env_b
 
     def test_dep_a(self):
+        print("Before calling dep_a, result_type is set to:", type(dep_a.result_type).__name__)
         assert dep_a() == 54, "The dep_a function did not return the expected result."
+        print("After calling dep_a, result_type is set to:", type(dep_a.result_type).__name__)
 
     def test_dep_a_with_function_in_dot_path(self):
         assert dep_a_with_function_in_dot_path() == 42, "The dep_a_with_function_in_dot_path function did not return the expected result."
