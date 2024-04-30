@@ -187,6 +187,7 @@ from twosigma.memento.call_stack import StackFrame, CallStack
 
 class TestCodeHash:
 
+    print("Diagnostic - sys.path at the start of TestCodeHash:", sys.path)
     print("Diagnostic - Environment.__dict__ at the start of TestCodeHash:", Environment.__dict__)
     print("Diagnostic - MEMENTO_TEST_MODE at the start of TestCodeHash:", os.getenv('MEMENTO_TEST_MODE'))
 
