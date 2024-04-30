@@ -22,6 +22,7 @@ import pickle
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
 import os
+import datetime
 
 from .base import MementoFunctionBase
 from .dependency_graph import DependencyGraph
@@ -39,7 +40,7 @@ from .code_hash import (
     MementoFunctionHashRule,
     list_dotted_names,
 )
-from .metadata import ResultType, Memento
+from .metadata import ResultType, Memento, InvocationMetadata
 
 
 _MementoFunctionVersionCacheEntry = namedtuple(
@@ -136,20 +137,22 @@ class MementoResultContainer:
             raise TypeError(f"Unsupported operand type(s) for ** or pow(): '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
 
     def __reduce__(self):
-        # Check if the result has a custom __reduce__ method for serialization
+        # Get the base serialization of the container itself
+        base = super().__reduce__()
+        # Serialize the _result using its own __reduce__ method if available
         if hasattr(self._result, '__reduce__'):
             result_reduce = self._result.__reduce__()
         else:
-            result_reduce = pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL)
-
-        # Check if the memento has a custom __reduce__ method for serialization
+            result_reduce = (pickle.loads, (pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL),))
+        # Serialize the memento using its own __reduce__ method if available
         if hasattr(self.memento, '__reduce__'):
             memento_reduce = self.memento.__reduce__()
         else:
-            memento_reduce = pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL)
-
+            memento_reduce = (pickle.loads, (pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL),))
         # Return a tuple that the pickle module can use to reconstruct the object
-        return (self.__class__, (result_reduce, memento_reduce))
+        # The first element is a callable that reconstructs the object,
+        # and the second element is a tuple of arguments for the callable
+        return (base[0], (base[1][0], result_reduce, memento_reduce))
 
     def __repr__(self):
         return f"MementoResultContainer(result={self._result}, memento={self.memento})"
