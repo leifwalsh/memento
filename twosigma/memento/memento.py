@@ -19,6 +19,7 @@ import inspect
 from collections import namedtuple
 from typing import Callable, Dict, Any, Tuple, List, Union, Optional, Set, cast
 import pickle
+from enum import Enum
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
 import os
