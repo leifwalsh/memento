@@ -24,6 +24,7 @@ import os
 import datetime
 import sys
 import pandas
+import numpy
 
 from .configuration import Environment, ENVIRONMENT_HASH_BYTES
 from .base import MementoFunctionBase
