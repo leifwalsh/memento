@@ -157,6 +157,23 @@ class MementoResultContainer:
     def __repr__(self):
         return f"MementoResultContainer(result={self._result}, memento={self.memento})"
 
+class ResultType:
+    # ... (other methods and attributes of ResultType)
+
+    @classmethod
+    def from_value(cls, value):
+        if isinstance(value, str):
+            return cls.STRING
+        elif isinstance(value, int):
+            return cls.INTEGER
+        elif isinstance(value, float):
+            return cls.FLOAT
+        elif isinstance(value, bool):
+            return cls.BOOLEAN
+        # Add more type checks as necessary
+        else:
+            raise ValueError(f"Unsupported type for ResultType: {type(value)}")
+
 class MementoFunction(MementoFunctionBase):
     """
     Pure function whose execution is scheduled to run on a configurable
