@@ -39,7 +39,7 @@ from .code_hash import (
     MementoFunctionHashRule,
     list_dotted_names,
 )
-from .metadata import ResultType
+from .metadata import ResultType, Memento
 
 
 _MementoFunctionVersionCacheEntry = namedtuple(
