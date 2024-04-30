@@ -400,6 +400,8 @@ class Codec(ABC):
         and returns the result as a file-like object.
 
         """
+        if result_type is None:
+            raise ValueError("result_type cannot be None.")
         return self._strategy[result_type].load(data_source, key)
 
     def make_url_for_result(
