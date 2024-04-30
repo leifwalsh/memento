@@ -401,6 +401,8 @@ class Codec(ABC):
 
         """
         if result_type is None:
+            # Diagnostic logging to trace the result_type value
+            print(f"Diagnostic - Attempting to load with result_type: {result_type}")
             raise ValueError("result_type cannot be None.")
         return self._strategy[result_type].load(data_source, key)
 
