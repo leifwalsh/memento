@@ -43,6 +43,7 @@ from twosigma.memento.metadata import ResultType, InvocationMetadata
 from twosigma.memento.partition import InMemoryPartition
 from twosigma.memento.code_hash import fn_code_hash
 from twosigma.memento.storage_filesystem import FilesystemStorageBackend
+from twosigma.memento.result import MementoResultContainer
 
 _called = False
 _today = datetime.date.today()
