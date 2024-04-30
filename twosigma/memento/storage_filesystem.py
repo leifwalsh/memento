@@ -453,8 +453,13 @@ class OnDiskPartition(Partition):
             if self._merge_parent:
                 return self._merge_parent.get(key)
             raise ValueError("Key '{}' not in key list for partition".format(key))
+
+        result_type = self._result_types[key]
+        if result_type is None:
+            raise ValueError(f"The result_type for key '{key}' is not set.")
+
         return self._codec.load(
-            self._result_types[key], self._data_source, self._result_keys[key]
+            result_type, self._data_source, self._result_keys[key]
         )
 
     def list_keys(self, _include_merge_parent: bool = True) -> Iterable[str]:
