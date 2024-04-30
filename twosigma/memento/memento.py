@@ -194,7 +194,7 @@ class ResultType(Enum):
         elif isinstance(value, bool):
             result_type = cls.BOOLEAN
         elif value is None:
-            result_type = cls.OTHER  # Changed from cls.NONE to cls.OTHER
+            result_type = cls.NONE  # Correctly handle None values
         elif isinstance(value, datetime.date):
             result_type = cls.DATE
         elif 'pandas' in sys.modules and isinstance(value, pandas.Series):
