@@ -28,7 +28,7 @@ from .call_stack import CallStack, StackFrame
 from .exception import MementoException, RemoteCallException, NonMemoizedException
 from .context import InvocationContext, RecursiveContext
 from .memento_logging import log
-from .metadata import Memento, ResultType
+from .metadata import Memento, ResultType, InvocationMetadata
 from .reference import FunctionReferenceWithArguments
 from .result import KeyOverrideResult
 from .runner import RunnerBackend, process_existing_memento, ExistingMementoResult
