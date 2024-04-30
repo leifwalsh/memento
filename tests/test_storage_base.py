@@ -50,7 +50,7 @@ def fn_test_long_str():
 class TestMemoryCache:
 
     @staticmethod
-    def get_dummy_memento() -> Memento:
+    def get_dummy_memento(result_type=ResultType.string) -> Memento:
         now = datetime.datetime.now(datetime.timezone.utc)
         return Memento(
             time=now,
@@ -59,7 +59,7 @@ class TestMemoryCache:
                 fn_reference_with_args=FunctionReferenceWithArguments(
                     fn_test1.fn_reference(), (), {}
                 ),
-                result_type=ResultType.number,
+                result_type=result_type,
                 invocations=[],
                 resources=[],
             ),
@@ -94,7 +94,7 @@ class TestMemoryCache:
     @pytest.mark.needs_canonical_version
     def test_cache_key_for_memento(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         arg_hash = memento.invocation_metadata.fn_reference_with_args.arg_hash
         # Note: This also tests the stability of the function code hash
         assert "tests.test_storage_base:fn_test1#de769e9c8c9b500e/{}".format(
@@ -114,7 +114,7 @@ class TestMemoryCache:
 
     def test_put_read_result(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         with pytest.raises(KeyError):
             cache.read_result(memento)
         cache.put(memento, 1, has_result=True)
@@ -122,7 +122,7 @@ class TestMemoryCache:
 
     def test_get_mementos(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         fn_ref = FunctionReferenceWithArguments(fn_test1.fn_reference(), (), {})
 
         with pytest.raises(KeyError):
@@ -146,7 +146,7 @@ class TestMemoryCache:
 
     def test_is_memoized(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         arg_hash = FunctionReferenceWithArguments(
             fn_test1.fn_reference(), (), {}
         ).arg_hash
@@ -156,7 +156,7 @@ class TestMemoryCache:
 
     def test_is_all_memoized(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         fn_reference_with_args = FunctionReferenceWithArguments(
             fn_test1.fn_reference(), (), {}
         )
@@ -166,7 +166,7 @@ class TestMemoryCache:
 
     def test_forget_call(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         cache.put(memento, 1, has_result=True)
         fn_reference_with_args = FunctionReferenceWithArguments(
             fn_test1.fn_reference(), (), {}
@@ -181,7 +181,7 @@ class TestMemoryCache:
 
     def test_forget_everything(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         cache.put(memento, 1, has_result=True)
         fn_reference_with_args = FunctionReferenceWithArguments(
             fn_test1.fn_reference(), (), {}
@@ -196,7 +196,7 @@ class TestMemoryCache:
 
     def test_forget_function(self):
         cache = MemoryCache(1)
-        memento = self.get_dummy_memento()
+        memento = self.get_dummy_memento(result_type=ResultType.string)
         cache.put(memento, 1, has_result=True)
         fn_reference_with_args = FunctionReferenceWithArguments(
             fn_test1.fn_reference(), (), {}
