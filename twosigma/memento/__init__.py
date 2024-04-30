@@ -41,6 +41,7 @@ from .memento import (
     list_memoized_functions,
     memento_function,
     MementoFunction,
+    ResultType,  # Added import for ResultType
 )
 
 from .resource_function import file_resource
@@ -60,6 +61,7 @@ __all__ = [
     "ConfigurationRepository",
     "FunctionCluster",
     "Environment",
+    "ResultType",  # Added ResultType to __all__ list
 ]
 
 
