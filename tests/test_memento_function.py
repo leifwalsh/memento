@@ -39,7 +39,7 @@ from twosigma.memento import (
     FunctionReference,
     MementoFunction,
 )
-from twosigma.memento.metadata import ResultType
+from twosigma.memento.metadata import ResultType, InvocationMetadata
 from twosigma.memento.partition import InMemoryPartition
 from twosigma.memento.code_hash import fn_code_hash
 from twosigma.memento.storage_filesystem import FilesystemStorageBackend

@@ -272,22 +272,32 @@ def memento_run_local(
     call_stack = CallStack.get()
     stack_frame = StackFrame(fn_reference_with_args, log_runner, context.recursive)
 
-    # Diagnostic print after creating the StackFrame
-    print(f"Diagnostic - StackFrame created with memento: {stack_frame.memento}")
+    # Initialize memento attribute with a new Memento object if not existing
+    existing_memento = storage_backend.get_memento(
+        fn_reference_with_args.fn_reference_with_arg_hash()
+    )
+    if not existing_memento:
+        existing_memento = Memento(
+            time=datetime.datetime.now(datetime.timezone.utc),
+            invocation_metadata=InvocationMetadata(
+                fn_reference_with_args=fn_reference_with_args,
+                invocations=[],
+                resources=[],
+                runtime=None,
+                result_type=None
+            ),
+            function_dependencies=set(),
+            runner=log_runner,
+            correlation_id=correlation_id,
+            content_key=None
+        )
+    stack_frame.memento = existing_memento
 
     # Acquire a lock for the invocation
     with _mutex_for_invocation(fn_reference_with_args):
         try:
-            # Diagnostic print after pushing the StackFrame onto the CallStack
-            print(f"Diagnostic - StackFrame pushed, CallStack depth: {call_stack.depth()}, StackFrame memento: {stack_frame.memento}")
             call_stack.push_frame(stack_frame)
 
-            # Diagnostic print before checking for an existing memento
-            print(f"Diagnostic - Checking for existing memento for function: {fn_reference_with_args.fn_reference.qualified_name}")
-
-            existing_memento = storage_backend.get_memento(
-                fn_reference_with_args.fn_reference_with_arg_hash()
-            )
             if existing_memento:
                 existing_memento_result = process_existing_memento(
                     storage_backend, existing_memento, context.local.ignore_result
@@ -325,9 +335,6 @@ def memento_run_local(
             #       children, but depending on whether the children are cached, this will come
             #       out different. We should change this to subtract out the runtime of children
             stack_frame.memento.invocation_metadata.runtime = time_end - time_start
-
-            # Diagnostic print after a new memento is created following the function call
-            print(f"Diagnostic - New memento created, StackFrame memento: {stack_frame.memento}")
 
             # Unwrap KeyOverrideResult
             key_override = None
@@ -385,9 +392,6 @@ def memento_run_local(
                 )
                 return exception_result
 
-            # Diagnostic print before the function result is returned
-            print(f"Diagnostic - Function result about to be returned, StackFrame memento: {stack_frame.memento}")
-
             log.debug(
                 "{}: Result was computed, {} and is of type {}".format(
                     correlation_id,
@@ -398,15 +402,10 @@ def memento_run_local(
             return result
         finally:
             log.debug("{}: Function call ends".format(correlation_id))
-            # Diagnostic print before popping the frame
-            print(f"Diagnostic - StackFrame memento before pop: {stack_frame.memento}")
             call_stack.pop_frame()
-            # Diagnostic print after popping the frame
-            print(f"Diagnostic - CallStack depth after pop: {call_stack.depth()}")
             calling_frame = call_stack.get_calling_frame()
             # Check if calling_frame is not None before accessing memento and calling propagate_dependencies
             if calling_frame and calling_frame.memento:
-                print(f"Diagnostic - Calling frame memento after pop: {calling_frame.memento}")
                 propagate_dependencies(
                     caller_memento=calling_frame.memento,
                     result_memento=stack_frame.memento,

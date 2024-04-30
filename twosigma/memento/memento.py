@@ -57,8 +57,36 @@ class MementoResultContainer:
     This is used for result types that do not support attribute assignment.
     """
     def __init__(self, result, memento):
+        if memento is None:
+            raise ValueError("MementoResultContainer instantiated with 'None' memento.")
         self._result = result
         self.memento = memento
+
+    def __reduce__(self):
+        # Get the base serialization of the container itself
+        base = super().__reduce__()
+        # Serialize the _result using its own __reduce__ method if available
+        if hasattr(self._result, '__reduce__'):
+            result_reduce = self._result.__reduce__()
+        elif isinstance(self._result, int):  # Explicit check for 'int' objects
+            result_reduce = (int, (self._result,))
+        elif isinstance(self._result, float):  # Explicit check for 'float' objects
+            result_reduce = (float, (self._result,))
+        elif isinstance(self._result, str):  # Explicit check for 'str' objects
+            result_reduce = (str, (self._result,))
+        # Add more elif blocks here for other specific types that need custom handling
+        else:
+            # Fallback for other types using pickle
+            result_reduce = (pickle.loads, (pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL),))
+        # Serialize the memento using its own __reduce__ method if available
+        if hasattr(self.memento, '__reduce__'):
+            memento_reduce = self.memento.__reduce__()
+        else:
+            memento_reduce = (pickle.loads, (pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL),))
+        # Return a tuple that the pickle module can use to reconstruct the object
+        # The first element is a callable that reconstructs the object,
+        # and the second element is a tuple of arguments for the callable
+        return (base[0], (base[1][0], result_reduce, memento_reduce))
 
     def __getattr__(self, item):
         return getattr(self._result, item)
@@ -138,24 +166,6 @@ class MementoResultContainer:
             return self.__class__(self._result.__pow__(other, modulo), self.memento)
         else:
             raise TypeError(f"Unsupported operand type(s) for ** or pow(): '{self._result.__class__.__name__}' and '{other.__class__.__name__}'")
-
-    def __reduce__(self):
-        # Get the base serialization of the container itself
-        base = super().__reduce__()
-        # Serialize the _result using its own __reduce__ method if available
-        if hasattr(self._result, '__reduce__'):
-            result_reduce = self._result.__reduce__()
-        else:
-            result_reduce = (pickle.loads, (pickle.dumps(self._result, protocol=pickle.HIGHEST_PROTOCOL),))
-        # Serialize the memento using its own __reduce__ method if available
-        if hasattr(self.memento, '__reduce__'):
-            memento_reduce = self.memento.__reduce__()
-        else:
-            memento_reduce = (pickle.loads, (pickle.dumps(self.memento, protocol=pickle.HIGHEST_PROTOCOL),))
-        # Return a tuple that the pickle module can use to reconstruct the object
-        # The first element is a callable that reconstructs the object,
-        # and the second element is a tuple of arguments for the callable
-        return (base[0], (base[1][0], result_reduce, memento_reduce))
 
     def __repr__(self):
         return f"MementoResultContainer(result={self._result}, memento={self.memento})"
@@ -477,14 +487,6 @@ class MementoFunction(MementoFunctionBase):
             )
             Environment.register_function(cluster_name, self)
 
-        # Diagnostic print to confirm successful creation and to display key attributes
-        print(f"MementoFunction object created for function: {fn.__name__}")
-        print(f"Function code hash: {self.code_hash}")
-        print(f"Function qualified name without version: {self.qualified_name_without_version}")
-        print(f"Function dependencies: {self.required_dependencies}")
-        print(f"Function auto_dependencies: {self.auto_dependencies}")
-        print(f"Function registered: {register_fn}")
-
     def clone_with(
         self,
         fn: Callable = None,
@@ -760,11 +762,9 @@ class MementoFunction(MementoFunctionBase):
         # Check if we are in test mode and simulate a non-top-level call stack
         env = Environment.get()
         if not hasattr(env, 'is_test_mode'):
-            print("Diagnostic - 'Environment' object does not have 'is_test_mode' attribute.")
             return
         if frame is None and not env.is_test_mode():
             # Top of stack, so no caller. Any call is allowed.
-            print("Top of call stack, any call is allowed.")
             return
 
         caller_ref = (
@@ -774,7 +774,6 @@ class MementoFunction(MementoFunctionBase):
         if caller.explicit_version is not None:
             # Caller has declared version explicitly, so there is no need to worry that
             # dependencies were not detected properly. Carry on.
-            print(f"Caller {caller.qualified_name_without_version} has explicit version, skipping dependency check.")
             return
 
         caller_args = frame.memento.invocation_metadata.fn_reference_with_args.args
@@ -795,14 +794,10 @@ class MementoFunction(MementoFunctionBase):
         # Any argument that is a function reference is also valid
         valid_fns |= fn_ref_args
 
-        print(f"Valid functions for caller {caller.qualified_name_without_version}: {valid_fns}")
-        print(f"Target function: {self.fn_reference().qualified_name}")
-
         if (
             caller.qualified_name_without_version != self.qualified_name_without_version
             and self.fn_reference().qualified_name not in valid_fns
         ):
-            print(f"About to raise UndeclaredDependencyError for target function {self.qualified_name_without_version} not being a declared dependency of caller {caller.qualified_name_without_version}.")
             raise UndeclaredDependencyError(
                 "{target} is not declared or detected to be a dependency of {src}. "
                 "Solution: Add @memento_function(dependencies=[{target}]) to {src}.".format(
