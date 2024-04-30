@@ -50,11 +50,17 @@ _now = datetime.datetime.now(datetime.timezone.utc)
 
 @pytest.fixture(autouse=True, scope='session')
 def set_test_mode_and_reload_environment():
+    # Set the MEMENTO_TEST_MODE environment variable to 'true'
+    os.environ['MEMENTO_TEST_MODE'] = 'true'
     # Explicitly import the configuration module
     from twosigma.memento import configuration
     # Reload the configuration module to update the Environment class
     importlib.reload(configuration)
+    # Diagnostic print to check if is_test_mode is in Environment class dictionary
+    print("Diagnostic - Environment.__dict__ after reload:", configuration.Environment.__dict__)
+    # Yield control back to the test function
     yield
+    # Reset the MEMENTO_TEST_MODE environment variable after the test session
     os.environ['MEMENTO_TEST_MODE'] = 'false'
 
 # Turn off auto-dependencies, else global variable _called will introduce version change
