@@ -52,7 +52,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-cov = "PYTHONPATH=/home/ubuntu/memento pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=twosigma.memento --cov=tests {args}"
+cov = "echo PYTHONPATH=$PYTHONPATH && PYTHONPATH=/home/ubuntu/memento pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=twosigma.memento --cov=tests {args}"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["38", "39", "310", "311"]
