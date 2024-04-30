@@ -8,3 +8,4 @@ diagnostic_output_middle.txt
 tests/__pycache__/
 twosigma/memento/__pycache__/
 diagnostic_script.py
+__pycache__/
