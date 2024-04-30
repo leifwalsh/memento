@@ -52,7 +52,7 @@ dependencies = [
 ]
 scripts = {
   cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=twosigma.memento --cov=tests {args}",
-  no-cov = "pytest --no-cov {args}"
+  "no-cov" = "pytest --no-cov {args}"
 }
 
 [[tool.hatch.envs.test.matrix]]
