@@ -157,8 +157,17 @@ class MementoResultContainer:
     def __repr__(self):
         return f"MementoResultContainer(result={self._result}, memento={self.memento})"
 
-class ResultType:
-    # ... (other methods and attributes of ResultType)
+class ResultType(Enum):
+    STRING = auto()
+    INTEGER = auto()
+    FLOAT = auto()
+    BOOLEAN = auto()
+    NONE = auto()
+    DATE = auto()
+    PANDAS_SERIES = auto()
+    PANDAS_DATAFRAME = auto()
+    NUMPY_ARRAY = auto()
+    OTHER = auto()
 
     @classmethod
     def from_value(cls, value):
@@ -170,9 +179,18 @@ class ResultType:
             return cls.FLOAT
         elif isinstance(value, bool):
             return cls.BOOLEAN
-        # Add more type checks as necessary
+        elif value is None:
+            return cls.NONE
+        elif isinstance(value, datetime.date):
+            return cls.DATE
+        elif 'pandas' in sys.modules and isinstance(value, pandas.Series):
+            return cls.PANDAS_SERIES
+        elif 'pandas' in sys.modules and isinstance(value, pandas.DataFrame):
+            return cls.PANDAS_DATAFRAME
+        elif 'numpy' in sys.modules and isinstance(value, numpy.ndarray):
+            return cls.NUMPY_ARRAY
         else:
-            raise ValueError(f"Unsupported type for ResultType: {type(value)}")
+            return cls.OTHER
 
 class MementoFunction(MementoFunctionBase):
     """
