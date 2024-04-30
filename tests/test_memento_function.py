@@ -1036,6 +1036,8 @@ class TestMemoize:
         assert fn_fib(4) == 3
 
     def test_map_over_range(self):
+        # Diagnostic print to check the Environment class dictionary before test execution
+        print("Diagnostic - Environment.__dict__ before test_map_over_range:", Environment.__dict__)
         result = add.partial(x=2).map_over_range(y=range(1, 4))
         # Diagnostic print to check the result object and its 'memento' attribute
         print(f"Diagnostic - Result object: {result}")
@@ -1048,6 +1050,8 @@ class TestMemoize:
         assert 5 == result[3]
 
     def test_call_batch(self):
+        # Diagnostic print to check the Environment class dictionary before test execution
+        print("Diagnostic - Environment.__dict__ before test_call_batch:", Environment.__dict__)
         # Make sure call_batch raises an error if kwarg keys are not strings
         kwarg_list = [{"x": 1, "y": 2}, {1: 2, "b": 4}]
         with pytest.raises(TypeError):
@@ -1064,6 +1068,7 @@ class TestMemoize:
         assert expected == results
 
     def test_call_batch_raise_first_exception(self):
+        print("Diagnostic - Environment.__dict__ before test_call_batch_raise_first_exception:", Environment.__dict__)
         kwarg_list = [{"x": 0}, {"x": 1}, {"x": 2}, {"x": 3}]
         with pytest.raises(ValueError):
             fn_raise_on_odd.call_batch(kwarg_list)
@@ -1080,6 +1085,7 @@ class TestMemoize:
         assert isinstance(result[3], ValueError)
 
     def test_monitor_progress(self):
+        print("Diagnostic - Environment.__dict__ before test_monitor_progress:", Environment.__dict__)
         # Try a successful call:
         kwarg_list = [{"x": 1, "y": 2}, {"x": 3, "y": 4}]
         results = add.monitor_progress().call_batch(kwarg_list)
