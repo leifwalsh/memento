@@ -719,24 +719,23 @@ class TestMemoize:
 
         try:
             # Use a path that is illegal on both Linux and Windows
-            m.Environment.set(
-                Environment(
-                    name="bad_env",
-                    repos=[
-                        ConfigurationRepository(
-                            name="bad_repo",
-                            clusters={
-                                "bad_cluster": FunctionCluster(
-                                    name="bad_cluster",
-                                    storage=FilesystemStorageBackend(
-                                        path="/proc/test<"
-                                    ),
-                                )
-                            },
-                        )
-                    ],
-                )
-            )
+            m.Environment.set({
+                "name": "bad_env",
+                "repos": [
+                    {
+                        "name": "bad_repo",
+                        "clusters": {
+                            "bad_cluster": {
+                                "name": "bad_cluster",
+                                "storage": {
+                                    "type": "filesystem",
+                                    "path": "/proc/test<"
+                                }
+                            }
+                        }
+                    }
+                ]
+            })
 
             _called = False
             assert "memoize me" == fn_test_memoize_string()

@@ -23,6 +23,7 @@ import tempfile
 from twosigma.memento import Environment, ConfigurationRepository, FunctionCluster
 from twosigma.memento.reference import FunctionReferenceWithArguments
 from twosigma.memento.storage_filesystem import FilesystemStorageBackend
+from twosigma.memento.metadata import Memento
 from tests.test_storage_backend import (
     StorageBackendTester,
     DataSourceTester,

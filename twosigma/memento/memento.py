@@ -589,7 +589,11 @@ class MementoFunction(MementoFunctionBase):
         """
         frame = CallStack.get().get_calling_frame()
         # Check if we are in test mode and simulate a non-top-level call stack
-        if frame is None and not Environment.get().is_test_mode():
+        env = Environment.get()
+        if not hasattr(env, 'is_test_mode'):
+            print("Diagnostic - 'Environment' object does not have 'is_test_mode' attribute.")
+            return
+        if frame is None and not env.is_test_mode():
             # Top of stack, so no caller. Any call is allowed.
             print("Top of call stack, any call is allowed.")
             return
