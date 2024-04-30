@@ -121,7 +121,7 @@ class TestStorageFilesystemWithMemoryCache(StorageBackendTester):
             fn_ref = fn1.fn_reference().with_args(
                 i
             )  # type: FunctionReferenceWithArguments
-            mm = self.get_dummy_memento(fn_ref)
+            mm = self.get_dummy_memento(fn_ref, result_type=m.ResultType.string)
             self.backend.memoize(None, mm, "." * 1024000)
             assert self.backend.is_memoized(fn_ref.fn_reference, fn_ref.arg_hash)
             s = cast(pd.Series, self.backend.read_result(mm))
