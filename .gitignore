@@ -7,3 +7,4 @@ diagnostic_output_middle.txt
 .coverage
 tests/__pycache__/
 twosigma/memento/__pycache__/
+diagnostic_script.py
