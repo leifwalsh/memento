@@ -488,10 +488,16 @@ class MementoFunction(MementoFunctionBase):
                            runner=None,  # Runner will be determined by the backend
                            recursive_context=None)  # Recursive context is not needed for direct calls
         # Initialize memento attribute with a new Memento object
+        # Placeholder for actual invocations and runtime calculation
+        invocations = []  # This should be replaced with actual invocations
+        runtime = None  # This should be replaced with actual runtime calculation
         frame.memento = Memento(time=datetime.datetime.now(datetime.timezone.utc),
                                 invocation_metadata=InvocationMetadata(
                                     fn_reference_with_args=fn_ref_with_args,
+                                    invocations=invocations,
                                     resources=[],
+                                    runtime=runtime,
+                                    result_type=None  # This will be set after the function call
                                 ),
                                 function_dependencies={fn_ref_with_args.fn_reference},
                                 runner=None,
@@ -500,7 +506,13 @@ class MementoFunction(MementoFunctionBase):
         call_stack.push_frame(frame)
         try:
             self._validate_dependency()
+            start_time = datetime.datetime.now(datetime.timezone.utc)  # Start time for runtime calculation
             result = super(MementoFunction, self).call(*args, **kwargs)
+            end_time = datetime.datetime.now(datetime.timezone.utc)  # End time for runtime calculation
+            # Calculate runtime
+            frame.memento.invocation_metadata.runtime = end_time - start_time
+            # Determine result type
+            frame.memento.invocation_metadata.result_type = ResultType.from_value(result)
             # Wrap the result in a MementoResultContainer to handle the memento attribute
             result = MementoResultContainer(result, frame.memento)
         finally:
