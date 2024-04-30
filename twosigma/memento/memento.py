@@ -194,7 +194,7 @@ class ResultType(Enum):
         elif isinstance(value, bool):
             result_type = cls.BOOLEAN
         elif value is None:
-            result_type = cls.NONE
+            result_type = cls.OTHER  # Changed from cls.NONE to cls.OTHER
         elif isinstance(value, datetime.date):
             result_type = cls.DATE
         elif 'pandas' in sys.modules and isinstance(value, pandas.Series):
@@ -556,8 +556,6 @@ class MementoFunction(MementoFunctionBase):
             frame.memento.invocation_metadata.runtime = end_time - start_time
             # Determine result type
             result_type = ResultType.from_value(result)
-            if result_type is ResultType.NONE:
-                result_type = ResultType.OTHER
             frame.memento.invocation_metadata.result_type = result_type
             # Wrap the result in a MementoResultContainer to handle the memento attribute
             result = MementoResultContainer(result, frame.memento)
