@@ -84,11 +84,14 @@ class MemoryStorageBackend(StorageBackend):
         return results
 
     def read_result(self, memento: Memento) -> object:
-        return self.result[
-            self._get_memento_key(
-                memento.invocation_metadata.fn_reference_with_args.fn_reference_with_arg_hash()
-            )
-        ]
+        key = self._get_memento_key(
+            memento.invocation_metadata.fn_reference_with_args.fn_reference_with_arg_hash()
+        )
+        if key in self.result:
+            return self.result[key]
+        else:
+            # Optionally, raise a custom exception or return None
+            return None  # or raise CustomNotFoundException(f"Result not found for key: {key}")
 
     def make_url_for_result(self, memento: Memento) -> Optional[str]:
         return memento.content_key
