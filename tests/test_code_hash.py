@@ -327,3 +327,26 @@ class TestCodeHash:
         )
         # noinspection PyUnresolvedReferences
         assert {_wrapped_one_plus_one.__wrapped__} == result
+
+    def test_fn_code_hash_with_varying_salt_and_environment(self):
+        """
+        Test that the fn_code_hash function produces different hashes with different
+        salt and environment values, and consistent hashes with the same values.
+        """
+        base_hash = fn_code_hash(one_plus_one)
+        hash_with_salt = fn_code_hash(one_plus_one, salt="unique_salt")
+        hash_with_env = fn_code_hash(one_plus_one, environment=b"unique_environment")
+        hash_with_both = fn_code_hash(one_plus_one, salt="unique_salt", environment=b"unique_environment")
+
+        # Assert that different salt or environment values produce different hashes
+        assert base_hash != hash_with_salt
+        assert base_hash != hash_with_env
+        assert base_hash != hash_with_both
+        assert hash_with_salt != hash_with_env
+        assert hash_with_salt != hash_with_both
+        assert hash_with_env != hash_with_both
+
+        # Assert that the same salt and environment values produce consistent hashes
+        assert hash_with_salt == fn_code_hash(one_plus_one, salt="unique_salt")
+        assert hash_with_env == fn_code_hash(one_plus_one, environment=b"unique_environment")
+        assert hash_with_both == fn_code_hash(one_plus_one, salt="unique_salt", environment=b"unique_environment")
