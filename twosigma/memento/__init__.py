@@ -17,7 +17,7 @@ import importlib
 
 from importlib.metadata import entry_points
 
-from .logging import set_log_level
+from .memento_logging import set_log_level
 
 from . import serialization  # noqa: F401
 
