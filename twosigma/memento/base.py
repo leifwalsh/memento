@@ -18,7 +18,7 @@ from pandas import DataFrame
 
 from twosigma.memento import Environment, Memento
 from twosigma.memento.exception import MementoNotFoundError
-from twosigma.memento.logging import log
+from twosigma.memento.memento_logging import log
 from twosigma.memento.reference import FunctionReferenceWithArguments, validate_args
 from twosigma.memento.runner_local import memento_run_batch
 from twosigma.memento.types import MementoFunctionType
