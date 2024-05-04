@@ -34,7 +34,7 @@ import yaml
 from jinja2 import Template
 
 from twosigma.memento.types import MementoFunctionType
-from .logging import log
+from .memento_logging import log
 from .runner import RunnerBackend
 from .storage import StorageBackend
 
