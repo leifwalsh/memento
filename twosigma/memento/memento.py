@@ -26,7 +26,7 @@ from .exception import UndeclaredDependencyError
 from .call_stack import CallStack
 from .context import InvocationContext
 from .external import ExternalMementoFunctionBase
-from .logging import log
+from .memento_logging import log
 from .types import MementoFunctionType, DependencyGraphType
 from .reference import FunctionReference
 from .code_hash import (

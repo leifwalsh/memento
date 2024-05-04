@@ -36,7 +36,7 @@ from typing import IO, Iterable, List, cast, Optional, Dict  # noqa: F401
 from urllib.parse import unquote
 from uuid import uuid4
 
-from .logging import log
+from .memento_logging import log
 from .metadata import ResultType
 from .partition import Partition
 from .storage import StorageBackend

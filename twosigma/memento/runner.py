@@ -27,7 +27,7 @@ from abc import ABC, abstractmethod
 from typing import Any, List, Optional, NamedTuple
 
 from .exception import MementoException
-from .logging import log
+from .memento_logging import log
 from .metadata import Memento
 from .storage import StorageBackend
 from .context import InvocationContext

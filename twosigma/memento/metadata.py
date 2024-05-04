@@ -23,7 +23,7 @@ import inspect
 from typing import List, Dict, Optional, MutableSet, ClassVar, Set
 from enum import Enum
 
-from .logging import log
+from .memento_logging import log
 from .resource import ResourceHandle
 from .exception import MementoException
 from .partition import Partition
