@@ -45,6 +45,7 @@ class ResultType(Enum):
     date = (6,)
     timestamp = (7,)
     list_result = (8,)  # list is a reserved word
+    tuple_result = (24,)
     dictionary = (9,)
     array_boolean = (10,)
     array_int8 = (11,)
@@ -83,6 +84,8 @@ class ResultType(Enum):
             return ResultType.date
         if isinstance(obj, list):
             return ResultType.list_result
+        if isinstance(obj, tuple):
+            return ResultType.tuple_result
         if isinstance(obj, dict):
             return ResultType.dictionary
         if isinstance(obj, pd.Index):

@@ -328,9 +328,14 @@ class MementoCodec:
                 "type": "twosigma.memento.FunctionReference",
                 "value": cls.encode_fn_reference(obj.fn_reference()),
             }
-        elif isinstance(obj, list) or isinstance(obj, tuple):
+        elif isinstance(obj, list):
             return {
                 "type": ResultType.list_result.name,
+                "value": [cls.encode_arg(x) for x in obj],
+            }
+        elif isinstance(obj, tuple):
+            return {
+                "type": ResultType.tuple_result.name,
                 "value": [cls.encode_arg(x) for x in obj],
             }
         elif isinstance(obj, dict):
@@ -411,5 +416,7 @@ class MementoCodec:
             return cls.decode_datetime(value)
         elif obj_type == ResultType.timestamp.name:
             return cls.decode_datetime(value)
+        elif obj_type == ResultType.tuple_result.name:
+            return tuple(cls.decode_arg(x) for x in value)
         else:
             raise ValueError("Cannot decode argument of type {}".format(obj_type))
